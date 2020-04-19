@@ -78,6 +78,7 @@ end
 
 (** Using OCaml's Int64 module *)
 module Int64 = struct
+  (* XXX. This is a bad default state, do proper initialisation. *)
   let s = [|
     0xdeadbeefdeadbeefL;
     0x4242424242424242L;
@@ -119,6 +120,8 @@ module Int64 = struct
     (* return result; *)
     result
 
+  (* Interface similar to Stdlib.Random *)
+
   let bits =
     let b = ref false in
     let r = ref 0 in
@@ -129,8 +132,39 @@ module Int64 = struct
         let () = r := Int64.to_int n land u32mask in
         let () = b := true in
         Int64.(to_int (shift_right_logical n 34))
+
+  let bits62 () =
+    let n = next () in
+    Int64.(to_int (shift_right_logical n 2))
+
+  let int =
+    let rec aux n =
+      let r = bits () in
+      let v = r mod n in
+      if r - v > 0x3FFFFFFF - n + 1 then aux n else v
+    in
+    fun n ->
+      if n > 0x3FFFFFFF || n <= 0
+      then invalid_arg "x256pp.int"
+      else aux n
+
+  let int62 () =
+    let rec aux n =
+      let r = bits62 () in
+      let v = r mod n in
+      if r - v > 0x3FFFFFFF_FFFFFFFF - n + 1 then aux n else v
+    in
+    fun n ->
+      if n <= 0
+      then invalid_arg "x256pp.int62"
+      else aux n
+
+  let float x =
+    Int64.(to_float (shift_right_logical (next ()) 11)) *. 0x1.0p-53
 end
 
 module C = struct
   external bits: unit -> int = "x256pp_bits"
+  external bits62: unit -> int = "x256pp_bits"
+  external float: float -> float = "x256pp_double"
 end

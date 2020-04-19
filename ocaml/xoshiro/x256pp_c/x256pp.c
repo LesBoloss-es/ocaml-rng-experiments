@@ -44,3 +44,12 @@ CAMLprim value x256pp_bits() {
   buf = buf >> 32;
   return Val_long(res);
 }
+
+CAMLprim value x256pp_bits62() {
+  return Val_long(next() >> 2);
+}
+
+CAMLprim value x256pp_double(value f) {
+  double d = (next() >> 11) * 0x1.0p-53 * Double_val(f);
+  return caml_copy_double(d);
+}
