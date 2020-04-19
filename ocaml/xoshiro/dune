@@ -1,2 +1,5 @@
+(include_subdirs unqualified)
+
 (library
- (name xoshiro))
+ (name xoshiro)
+ (foreign_stubs (language c) (names x256pp)))

@@ -10,5 +10,6 @@ let () =
   for _ = 1 to n do
     let hi, lo = X256pp.Int.next () in
     Format.printf "%08x%08x " hi lo;
-    Format.printf "%016Lx@." (X256pp.Int64.next ());
+    Format.printf "%016Lx " (X256pp.Int64.next ());
+    Format.printf "%08x@." (X256pp.C.bits ())
   done

@@ -130,3 +130,7 @@ module Int64 = struct
         let () = b := true in
         Int64.(to_int (shift_right_logical n 34))
 end
+
+module C = struct
+  external bits: unit -> int = "x256pp_bits"
+end

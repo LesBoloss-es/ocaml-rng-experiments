@@ -11,6 +11,8 @@ let main () =
       ignore (X256pp.Int.bits ()));
     B.Test.create ~name:"X256pp.Int64.bits" (fun () ->
       ignore (X256pp.Int64.bits ()));
+    B.Test.create ~name:"X256pp.C.bits" (fun () ->
+      ignore (X256pp.C.bits ()));
   ])
 
 let () = main ()
