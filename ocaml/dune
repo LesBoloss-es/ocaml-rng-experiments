@@ -1,0 +1,13 @@
+(executable
+ (name testxoshiro)
+ (modules testxoshiro)
+ (libraries xoshiro))
+
+(executable
+ (name testocamlrandom)
+ (modules testocamlrandom))
+
+(executable
+ (name bench)
+ (libraries xoshiro core_bench)
+ (modules Bench))
