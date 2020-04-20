@@ -6,3 +6,8 @@
 (executable
  (name ocamlrandom)
  (modules ocamlrandom))
+
+(executable
+ (name splitmix)
+ (modules splitmix)
+ (libraries splitmix))
