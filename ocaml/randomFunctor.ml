@@ -43,14 +43,22 @@ end
 
 module type FULLBITS = sig
   type state
+  (** The type of PRNG states. *)
 
   val new_state : unit -> state
+  (** Create a new non-initialised state. *)
+
   val assign : state -> state -> unit
+  (** [assign s1 s2] copies [s2] into [s1]. *)
+
   val full_init : state -> int array -> unit
+  (** Initialise a given state with a given seed. *)
 
   val bits : state -> int
+  (** Provide 30 random bits in an integer. *)
 
   val default : state
+  (** The default state to use for basic functions. *)
 end
 
 external random_seed: unit -> int array = "caml_sys_random_seed"
