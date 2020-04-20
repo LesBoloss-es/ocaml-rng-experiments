@@ -10,4 +10,4 @@
 (executable
  (name bench)
  (libraries xoshiro core_bench)
- (modules Bench))
+ (modules Bench RandomFunctor))
