@@ -1,0 +1,8 @@
+(executable
+ (name xoshiro)
+ (modules xoshiro)
+ (libraries xoshiro))
+
+(executable
+ (name ocamlrandom)
+ (modules ocamlrandom))
