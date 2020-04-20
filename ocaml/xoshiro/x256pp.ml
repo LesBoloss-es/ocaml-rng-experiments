@@ -165,6 +165,6 @@ end
 
 module C = struct
   external bits: unit -> int = "x256pp_bits"
-  external bits62: unit -> int = "x256pp_bits"
+  external bits62: unit -> int = "x256pp_bits62"
   external float: float -> float = "x256pp_double"
 end
