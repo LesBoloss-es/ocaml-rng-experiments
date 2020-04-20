@@ -160,7 +160,7 @@ module Int64 = struct
       else aux n
 
   let float x =
-    Int64.(to_float (shift_right_logical (next ()) 11)) *. 0x1.0p-53
+    Int64.(to_float (shift_right_logical (next ()) 11)) *. 0x1.0p-53 *. x
 end
 
 module C = struct
