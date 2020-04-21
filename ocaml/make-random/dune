@@ -6,3 +6,8 @@
  (name bench)
  (libraries makeRandom core_bench)
  (modules bench))
+
+(test
+ (name test)
+ (libraries makeRandom)
+ (modules test))
