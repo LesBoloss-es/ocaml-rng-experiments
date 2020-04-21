@@ -2,10 +2,10 @@ open Xoshiro
 module B = Core_bench.Bench
 module Command = Core.Command
 
-module Random_Stdlib       = RandomFunctor.Basic(Random)
-module Random_X256pp_Int   = RandomFunctor.Basic(X256pp.Int)
-module Random_X256pp_Int64 = RandomFunctor.Basic(X256pp.Int64)
-module Random_X256pp_C     = RandomFunctor.Basic(X256pp.C)
+module Random_Stdlib       = MakeRandom.Basic(Random)
+module Random_X256pp_Int   = MakeRandom.Basic(X256pp.Int)
+module Random_X256pp_Int64 = MakeRandom.Basic(X256pp.Int64)
+module Random_X256pp_C     = MakeRandom.Basic(X256pp.C)
 
 let bits () =
   Command.run @@ B.make_command [

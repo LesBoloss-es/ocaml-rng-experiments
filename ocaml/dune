@@ -9,5 +9,5 @@
 
 (executable
  (name bench)
- (libraries xoshiro core_bench)
- (modules Bench RandomFunctor))
+ (libraries xoshiro makeRandom core_bench)
+ (modules Bench))
