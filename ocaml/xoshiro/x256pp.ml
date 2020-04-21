@@ -74,6 +74,18 @@ module Int = struct
         let () = r := l land u32mask in
         let () = b := true in
         h land u32mask
+
+  let rawfloat1 () =
+    let scale = 1073741824.0 in (* 2^30 *)
+    let s1 = Stdlib.float (bits ()) in
+    let s2 = Stdlib.float (bits ()) in
+    (s1 +. (s2 /. scale)) /. scale
+
+  let rawfloat2 () =
+    Stdlib.float ((bits () lsl 23) lor (bits () lsr 7)) *. 0x1.0p-53
+
+  let float1 x = rawfloat1 () *. x
+  let float2 x = rawfloat2 () *. x
 end
 
 (** Using OCaml's Int64 module *)
