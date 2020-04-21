@@ -10,57 +10,57 @@ module Random_X256pp_C     = MakeRandom.Basic(X256pp.C)
 let bits () =
   Command.run @@ B.make_command [
     B.Test.create ~name:"Random.bits" (fun () ->
-        ignore (Random.bits ()));
+        Random.bits ());
     B.Test.create ~name:"X256pp.Int.bits" (fun () ->
-        ignore (X256pp.Int.bits ()));
+        X256pp.Int.bits ());
     B.Test.create ~name:"X256pp.Int64.bits" (fun () ->
-        ignore (X256pp.Int64.bits ()));
+        X256pp.Int64.bits ());
     B.Test.create ~name:"X256pp.Int64.bits62" (fun () ->
-        ignore (X256pp.Int64.bits62 ()));
+        X256pp.Int64.bits62 ());
     B.Test.create ~name:"X256pp.C.bits" (fun () ->
-        ignore (X256pp.C.bits ()));
+        X256pp.C.bits ());
     B.Test.create ~name:"X256pp.C.bits62" (fun () ->
-        ignore (X256pp.C.bits62 ()));
+        X256pp.C.bits62 ());
     B.Test.create ~name:"RandomFunctor(Random).bits" (fun () ->
-        ignore (Random_Stdlib.bits ()));
+        Random_Stdlib.bits ());
     B.Test.create ~name:"RandomFunctor(X256pp.Int).bits" (fun () ->
-        ignore (Random_X256pp_Int.bits ()));
+        Random_X256pp_Int.bits ());
     B.Test.create ~name:"RandomFunctor(X256pp.Int64).bits" (fun () ->
-        ignore (Random_X256pp_Int64.bits ()));
+        Random_X256pp_Int64.bits ());
     B.Test.create ~name:"RandomFunctor(X256pp.C).bits" (fun () ->
-        ignore (Random_X256pp_C.bits ()));
+        Random_X256pp_C.bits ());
   ]
 
 let float () =
   Command.run @@ B.make_command [
     B.Test.create ~name:"Random.float" (fun () ->
-        ignore (Random.float 1.));
+        Random.float 1.);
     B.Test.create ~name:"X256pp.Int64.float" (fun () ->
-        ignore (X256pp.Int64.float 1.));
+        X256pp.Int64.float 1.);
     B.Test.create ~name:"X256pp.C.float" (fun () ->
-        ignore (X256pp.C.float 1.));
+        X256pp.C.float 1.);
     B.Test.create ~name:"RandomFunctor(Random).float" (fun () ->
-        ignore (Random_Stdlib.float 1.));
+        Random_Stdlib.float 1.);
     B.Test.create ~name:"RandomFunctor(X256pp.Int).float" (fun () ->
-        ignore (Random_X256pp_Int.float 1.));
+        Random_X256pp_Int.float 1.);
     B.Test.create ~name:"RandomFunctor(X256pp.Int64).float" (fun () ->
-        ignore (Random_X256pp_Int64.float 1.));
+        Random_X256pp_Int64.float 1.);
     B.Test.create ~name:"RandomFunctor(X256pp.C).float" (fun () ->
-        ignore (Random_X256pp_C.float 1.));
+        Random_X256pp_C.float 1.);
   ]
 
 let int64 () =
   Command.run @@ B.make_command [
     B.Test.create ~name:"Random.int64" (fun () ->
-        ignore (Random.int64 Int64.max_int));
+        Random.int64 Int64.max_int);
     B.Test.create ~name:"RandomFunctor(Random).int64" (fun () ->
-        ignore (Random_Stdlib.int64 Int64.max_int));
+        Random_Stdlib.int64 Int64.max_int);
     B.Test.create ~name:"RandomFunctor(X256pp.Int).int64" (fun () ->
-        ignore (Random_X256pp_Int.int64 Int64.max_int));
+        Random_X256pp_Int.int64 Int64.max_int);
     B.Test.create ~name:"RandomFunctor(X256pp.Int64).int64" (fun () ->
-        ignore (Random_X256pp_Int64.int64 Int64.max_int));
+        Random_X256pp_Int64.int64 Int64.max_int);
     B.Test.create ~name:"RandomFunctor(X256pp.C).int64" (fun () ->
-        ignore (Random_X256pp_C.int64 Int64.max_int));
+        Random_X256pp_C.int64 Int64.max_int);
   ]
 
 
