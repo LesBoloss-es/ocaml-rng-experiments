@@ -21,14 +21,6 @@ let bits () =
         X256pp.C.bits ());
     B.Test.create ~name:"X256pp.C.bits62" (fun () ->
         X256pp.C.bits62 ());
-    B.Test.create ~name:"RandomFunctor(Random).bits" (fun () ->
-        Random_Stdlib.bits ());
-    B.Test.create ~name:"RandomFunctor(X256pp.Int).bits" (fun () ->
-        Random_X256pp_Int.bits ());
-    B.Test.create ~name:"RandomFunctor(X256pp.Int64).bits" (fun () ->
-        Random_X256pp_Int64.bits ());
-    B.Test.create ~name:"RandomFunctor(X256pp.C).bits" (fun () ->
-        Random_X256pp_C.bits ());
   ]
 
 let float () =
@@ -39,30 +31,25 @@ let float () =
         X256pp.Int64.float 1.);
     B.Test.create ~name:"X256pp.C.float" (fun () ->
         X256pp.C.float 1.);
-    B.Test.create ~name:"RandomFunctor(Random).float" (fun () ->
-        Random_Stdlib.float 1.);
-    B.Test.create ~name:"RandomFunctor(X256pp.Int).float" (fun () ->
+    B.Test.create ~name:"MakeRandom(X256pp.Int).float" (fun () ->
         Random_X256pp_Int.float 1.);
-    B.Test.create ~name:"RandomFunctor(X256pp.Int64).float" (fun () ->
+    B.Test.create ~name:"MakeRandom(X256pp.Int64).float" (fun () ->
         Random_X256pp_Int64.float 1.);
-    B.Test.create ~name:"RandomFunctor(X256pp.C).float" (fun () ->
+    B.Test.create ~name:"MakeRandom(X256pp.C).float" (fun () ->
         Random_X256pp_C.float 1.);
   ]
 
 let int64 () =
   Command.run @@ B.make_command [
-    B.Test.create ~name:"Random.int64" (fun () ->
-        Random.int64 Int64.max_int);
-    B.Test.create ~name:"RandomFunctor(Random).int64" (fun () ->
+    B.Test.create ~name:"MakeRandom(Random).int64" (fun () ->
         Random_Stdlib.int64 Int64.max_int);
-    B.Test.create ~name:"RandomFunctor(X256pp.Int).int64" (fun () ->
+    B.Test.create ~name:"MakeRandom(X256pp.Int).int64" (fun () ->
         Random_X256pp_Int.int64 Int64.max_int);
-    B.Test.create ~name:"RandomFunctor(X256pp.Int64).int64" (fun () ->
+    B.Test.create ~name:"MakeRandom(X256pp.Int64).int64" (fun () ->
         Random_X256pp_Int64.int64 Int64.max_int);
-    B.Test.create ~name:"RandomFunctor(X256pp.C).int64" (fun () ->
+    B.Test.create ~name:"MakeRandom(X256pp.C).int64" (fun () ->
         Random_X256pp_C.int64 Int64.max_int);
   ]
-
 
 let () =
   bits ();

@@ -1,2 +1,8 @@
 (library
- (name makeRandom))
+ (name makeRandom)
+ (modules makeRandom))
+
+(executable
+ (name bench)
+ (libraries makeRandom core_bench)
+ (modules bench))
