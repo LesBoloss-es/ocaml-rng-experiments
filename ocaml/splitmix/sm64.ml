@@ -13,7 +13,7 @@ let next (s: Int64.t ref) =
   logxor (shift_right_logical z 31) z
 
 
-module Self = MakeRandom.Full(struct
+include MakeRandom.Full(struct
   type state = Int64.t ref
 
   let default = ref 0x25dc4fcdfae36682L
