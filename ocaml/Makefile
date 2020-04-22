@@ -1,14 +1,14 @@
-all:
-	dune build ./testocamlrandom.exe
-	dune build ./testxoshiro.exe
-	dune build ./bench.exe
+all: tests bench
+
+tests:
+	dune build ./tests/ocamlrandom.exe
+	dune build ./tests/xoshiro.exe
+	dune build ./tests/splitmix.exe
 
 bench:
-	dune clean
-	dune build --profile=release ./bench.exe
-	_build/default/bench.exe
+	dune build ./bench.exe
 
 clean:
 	dune clean
 
-.PHONY: all clean bench
+.PHONY: all clean bench tests
