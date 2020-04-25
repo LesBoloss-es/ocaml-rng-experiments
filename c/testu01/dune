@@ -1,0 +1,12 @@
+(rule
+ (deps
+  TestU01-1.2.3.zip
+  (sandbox none))
+ (targets libtestu01.a dlltestu01.so)
+ (action
+  (progn
+   (run unzip TestU01-1.2.3)
+   (system "cd TestU01-1.2.3 && ./configure")
+   (system "cd TestU01-1.2.3 && make")
+   (run cp TestU01-1.2.3/testu01/.libs/libtestu01.a libtestu01.a)
+   (run cp TestU01-1.2.3/testu01/.libs/libtestu01.so.0.0.1 dlltestu01.so))))
