@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {
   if (argc == 2) n = atoi(argv[1]);
 
   for (int i = 0; i < n; i++)
-    printf("%08x\n", bits());
+    printf("%08x\n", next(&default_state));
 
   return 0;
 }
