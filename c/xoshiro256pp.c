@@ -24,15 +24,14 @@ static inline uint64_t rotl(const uint64_t x, int k) {
 	return (x << k) | (x >> (64 - k));
 }
 
-
-static uint64_t s[4] = {
+uint64_t default_state[4] = {
   0xdeadbeefdeadbeef,
   0x4242424242424242,
   0x3737373737373737,
   0xca7aca7aca7aca7a
 };
 
-uint64_t next(void) {
+uint64_t next(uint64_t s[4]) {
 	const uint64_t result = rotl(s[0] + s[3], 23) + s[0];
 
 	const uint64_t t = s[1] << 17;
@@ -48,3 +47,59 @@ uint64_t next(void) {
 
 	return result;
 }
+
+void initialise(uint64_t s[4], int seed) {
+  (void)seed; // TODO.
+  for (int i = 0; i < 4; i++)
+    s[i] = default_state[i];
+}
+
+// TestU01 interface
+
+#include <unif01.h>
+#include <malloc.h>
+
+unsigned long next_u30_hi(uint64_t s[4]) {
+  uint64_t n = next(s);
+  return (n >> 34);
+}
+
+static void write_state(void *s) {
+  printf("[|");
+  for (int i = 0; i < 4; i++)
+    printf("%lx; ", ((uint64_t*)s)[i]);
+}
+
+static double next_double_u01(void *par, void *s) {
+  (void)par;
+  double r1 = (double)next_u30_hi(s);
+  double r2 = (double)next_u30_hi(s);
+  return (r1 / 1073741824.0 + r2) / 1073741824.0;
+}
+
+static unsigned long next_u01(void *par, void *s) {
+  (void)par;
+  return next_u30_hi(s);
+}
+
+unif01_Gen* create_x256pp(int seed) {
+  unif01_Gen* gen;
+  uint64_t* state;
+
+  gen = malloc(sizeof(unif01_Gen));
+  gen->state = state = malloc(sizeof(uint64_t) * 4);
+  initialise(state, seed);
+  gen->param = NULL;
+  gen->Write = write_state;
+  gen->GetU01 = next_double_u01;
+  gen->GetBits = next_u01;
+  gen->name = "xoshiro256++";
+
+  return gen;
+}
+
+void delete_x256pp(unif01_Gen* gen) {
+  free(gen->state);
+  free(gen);
+}
+
