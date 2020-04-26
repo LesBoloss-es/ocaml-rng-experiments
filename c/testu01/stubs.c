@@ -66,6 +66,15 @@ CAMLprim value caml_bbattery_Crush(value name, value bits) {
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value caml_bbattery_RepeatCrush(value name, value bits, value rep) {
+  CAMLparam3(name, bits, rep);
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
+  bbattery_RepeatCrush(gen, int_array_from_int32_bigarray(rep));
+  unif01_DeleteExternGenBits(gen);
+  CAMLreturn(Val_unit);
+}
+
 /* ****************************** [ BigCrush ] ****************************** */
 
 CAMLprim value caml_bbattery_BigCrush(value name, value bits) {
@@ -73,6 +82,15 @@ CAMLprim value caml_bbattery_BigCrush(value name, value bits) {
   unif01_Gen *gen;
   gen = unif01_CreateExternGenFromCamlBits(name, &bits);
   bbattery_BigCrush(gen);
+  unif01_DeleteExternGenBits(gen);
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value caml_bbattery_RepeatBigCrush(value name, value bits, value rep) {
+  CAMLparam3(name, bits, rep);
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
+  bbattery_RepeatBigCrush(gen, int_array_from_int32_bigarray(rep));
   unif01_DeleteExternGenBits(gen);
   CAMLreturn(Val_unit);
 }
@@ -94,6 +112,15 @@ CAMLprim value caml_bbattery_RabbitFile(value filename, value nb) {
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value caml_bbattery_RepeatRabbit(value name, value bits, value nb, value rep) {
+  CAMLparam4(name, bits, nb, rep);
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
+  bbattery_RepeatRabbit(gen, Double_val(nb), int_array_from_int32_bigarray(rep));
+  unif01_DeleteExternGenBits(gen);
+  CAMLreturn(Val_unit);
+}
+
 /* ****************************** [ Alphabit ] ****************************** */
 
 CAMLprim value caml_bbattery_Alphabit(value name, value bits, value nb, value r, value s) {
@@ -111,6 +138,18 @@ CAMLprim value caml_bbattery_AlphabitFile(value filename, value nb) {
   CAMLreturn(Val_unit);
 }
 
+CAMLprim value caml_bbattery_RepeatAlphabit(value name, value bits, value nb, value r, value s, value rep) {
+  CAMLparam5(name, bits, nb, r, s); CAMLxparam1(rep);
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
+  bbattery_RepeatAlphabit(gen, Double_val(nb), Int_val(r), Int_val(s), int_array_from_int32_bigarray(rep));
+  unif01_DeleteExternGenBits(gen);
+  CAMLreturn(Val_unit);
+}
+CAMLprim value camlbytecode_bbattery_RepeatAlphabit(value * argv, int argn) {
+  return caml_bbattery_RepeatAlphabit(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
+}
+
 CAMLprim value caml_bbattery_BlockAlphabit(value name, value bits, value nb, value r, value s) {
   CAMLparam5(name, bits, nb, r, s);
   unif01_Gen *gen;
@@ -124,6 +163,18 @@ CAMLprim value caml_bbattery_BlockAlphabitFile(value filename, value nb) {
   CAMLparam2(filename, nb);
   bbattery_BlockAlphabitFile (Bytes_val(filename), Double_val(nb));
   CAMLreturn(Val_unit);
+}
+
+CAMLprim value caml_bbattery_RepeatBlockAlphabit(value name, value bits, value nb, value r, value s, value rep, value w) {
+  CAMLparam5(name, bits, nb, r, s); CAMLxparam2(rep, w);
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
+  bbattery_RepeatBlockAlphabit(gen, Double_val(nb), Int_val(r), Int_val(s), int_array_from_int32_bigarray(rep), Int_val(w));
+  unif01_DeleteExternGenBits(gen);
+  CAMLreturn(Val_unit);
+}
+CAMLprim value camlbytecode_bbattery_RepeatBlockAlphabit(value * argv, int argn) {
+  return caml_bbattery_RepeatBlockAlphabit(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5], argv[6]);
 }
 
 /* ****************************** [ DIEHARD ] ******************************* */
