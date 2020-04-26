@@ -34,3 +34,6 @@ external bbattery_RepeatBlockAlphabit : string -> (unit -> int) -> float -> int 
 let bbattery_RepeatBlockAlphabit name bits nb r s rep w = bbattery_RepeatBlockAlphabit name bits nb r s (barep rep) w
 
 external bbattery_pseudoDIEHARD : string -> (unit -> int) -> unit = "caml_bbattery_pseudoDIEHARD"
+
+external bbattery_FIPS_140_2 : string -> (unit -> int) -> unit = "caml_bbattery_FIPS_140_2"
+external bbattery_FIPS_140_2File : string -> unit = "caml_bbattery_FIPS_140_2File"

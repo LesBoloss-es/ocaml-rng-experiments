@@ -187,3 +187,20 @@ CAMLprim value caml_bbattery_pseudoDIEHARD(value name, value bits) {
   unif01_DeleteExternGenBits(gen);
   CAMLreturn(Val_unit);
 }
+
+/* **************************** [ FISP 140 2 ] ****************************** */
+
+CAMLprim value caml_bbattery_FIPS_140_2(value name, value bits) {
+  CAMLparam2(name, bits);
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
+  bbattery_FIPS_140_2(gen);
+  unif01_DeleteExternGenBits(gen);
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value caml_bbattery_FIPS_140_2File(value filename) {
+  CAMLparam1(filename);
+  bbattery_FIPS_140_2File(Bytes_val(filename));
+  CAMLreturn(Val_unit);
+}
