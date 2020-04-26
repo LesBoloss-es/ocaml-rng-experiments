@@ -10,6 +10,7 @@ unsigned int camlBits() {
   return Int_val(caml_callback(*camlBits_closure, Val_unit));
 }
 unif01_Gen *unif01_CreateExternGenFromCamlBits(value name, value *bits) {
+  CAMLparam2(name, *bits);
   if (camlBits_closure == NULL)
     caml_register_global_root(camlBits_closure);
   camlBits_closure = bits;
