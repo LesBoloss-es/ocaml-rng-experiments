@@ -1,5 +1,9 @@
 external bbattery_SmallCrush : string -> (unit -> int) -> unit = "caml_bbattery_SmallCrush"
 external bbattery_SmallCrushFile : string -> unit = "caml_bbattery_SmallCrushFile"
+external bbattery_RepeatSmallCrush : string -> (unit -> int) -> 'a -> unit = "caml_bbattery_RepeatSmallCrush"
+let bbattery_RepeatSmallCrush name bits rep =
+  let rep = Bigarray.(Array1.of_array int c_layout) rep in
+  bbattery_RepeatSmallCrush name bits rep
 
 external bbattery_Crush : string -> (unit -> int) -> unit = "caml_bbattery_Crush"
 

@@ -4,6 +4,7 @@
 #include <caml/mlvalues.h>
 #include <caml/memory.h>
 #include <caml/callback.h>
+#include <caml/bigarray.h>
 
 value * camlBits_closure = NULL;
 unsigned int camlBits() {
@@ -31,6 +32,15 @@ CAMLprim value caml_bbattery_SmallCrush(value name, value bits) {
 CAMLprim value caml_bbattery_SmallCrushFile(value filename) {
   CAMLparam1(filename);
   bbattery_SmallCrushFile(Bytes_val(filename));
+  CAMLreturn(Val_unit);
+}
+
+CAMLprim value caml_bbattery_RepeatSmallCrush(value name, value bits, value rep) {
+  CAMLparam3(name, bits, rep);
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
+  bbattery_RepeatSmallCrush(gen, (int*) Caml_ba_data_val(rep));
+  unif01_DeleteExternGenBits(gen);
   CAMLreturn(Val_unit);
 }
 
