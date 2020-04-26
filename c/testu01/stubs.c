@@ -18,6 +18,17 @@ unif01_Gen *unif01_CreateExternGenFromCamlBits(value name, value *bits) {
   return unif01_CreateExternGenBits(Bytes_val(name), camlBits);
 }
 
+int * int_array_from_int32_bigarray(value ba) {
+  CAMLparam1(ba);
+  int ba32_length = Caml_ba_array_val(ba)->dim[0];
+  int32_t * ba32 = Caml_ba_data_val(ba);
+  int * a = malloc(ba32_length * sizeof(int));
+  for (int i = 0 ; i < ba32_length ; i++) {
+    a[i] = (int) ba32[i];
+  };
+  return a;
+}
+
 /* ***************************** [ SmallCrush ] ***************************** */
 
 CAMLprim value caml_bbattery_SmallCrush(value name, value bits) {
@@ -39,7 +50,7 @@ CAMLprim value caml_bbattery_RepeatSmallCrush(value name, value bits, value rep)
   CAMLparam3(name, bits, rep);
   unif01_Gen *gen;
   gen = unif01_CreateExternGenFromCamlBits(name, &bits);
-  bbattery_RepeatSmallCrush(gen, (int*) Caml_ba_data_val(rep));
+  bbattery_RepeatSmallCrush(gen, int_array_from_int32_bigarray(rep));
   unif01_DeleteExternGenBits(gen);
   CAMLreturn(Val_unit);
 }
