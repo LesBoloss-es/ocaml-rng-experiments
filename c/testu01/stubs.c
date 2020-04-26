@@ -9,8 +9,8 @@ value * camlBits_closure = NULL;
 unsigned int camlBits() {
   return Int_val(caml_callback(*camlBits_closure, Val_unit));
 }
-unif01_Gen *unif01_CreateExternGenFromCamlBits(value name, value bits) {
-  camlBits_closure = &bits;
+unif01_Gen *unif01_CreateExternGenFromCamlBits(value name, value *bits) {
+  camlBits_closure = bits;
   return unif01_CreateExternGenBits(Bytes_val(name), camlBits);
 }
 
@@ -18,7 +18,7 @@ unif01_Gen *unif01_CreateExternGenFromCamlBits(value name, value bits) {
 
 value caml_bbattery_SmallCrush(value name, value bits) {
   unif01_Gen *gen;
-  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
   bbattery_SmallCrush(gen);
   unif01_DeleteExternGenBits(gen);
   return Val_unit;
@@ -34,7 +34,7 @@ value caml_bbattery_SmallCrushFile(value filename) {
 
 value caml_bbattery_Crush(value name, value bits) {
   unif01_Gen *gen;
-  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
   bbattery_Crush(gen);
   unif01_DeleteExternGenBits(gen);
   return Val_unit;
@@ -44,7 +44,7 @@ value caml_bbattery_Crush(value name, value bits) {
 
 value caml_bbattery_BigCrush(value name, value bits) {
   unif01_Gen *gen;
-  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
   bbattery_BigCrush(gen);
   unif01_DeleteExternGenBits(gen);
   return Val_unit;
@@ -54,7 +54,7 @@ value caml_bbattery_BigCrush(value name, value bits) {
 
 value caml_bbattery_Rabbit(value name, value bits, value nb) {
   unif01_Gen *gen;
-  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
   bbattery_Rabbit (gen, Double_val(nb));
   unif01_DeleteExternGenBits(gen);
   return Val_unit;
@@ -69,7 +69,7 @@ value caml_bbattery_RabbitFile(value filename, value nb) {
 
 value caml_bbattery_Alphabit(value name, value bits, value nb, value r, value s) {
   unif01_Gen *gen;
-  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
   bbattery_Alphabit (gen, Double_val(nb), Int_val(r), Int_val(s));
   unif01_DeleteExternGenBits(gen);
   return Val_unit;
@@ -82,7 +82,7 @@ value caml_bbattery_AlphabitFile(value filename, value nb) {
 
 value caml_bbattery_BlockAlphabit(value name, value bits, value nb, value r, value s) {
   unif01_Gen *gen;
-  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
   bbattery_BlockAlphabit (gen, Double_val(nb), Int_val(r), Int_val(s));
   unif01_DeleteExternGenBits(gen);
   return Val_unit;
@@ -97,7 +97,7 @@ value caml_bbattery_BlockAlphabitFile(value filename, value nb) {
 
 value caml_bbattery_pseudoDIEHARD(value name, value bits) {
   unif01_Gen *gen;
-  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  gen = unif01_CreateExternGenFromCamlBits(name, &bits);
   bbattery_pseudoDIEHARD(gen);
   unif01_DeleteExternGenBits(gen);
   return Val_unit;
