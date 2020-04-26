@@ -1,4 +1,10 @@
 (library
  (name splitmix)
  (foreign_stubs (language c) (names reference stubs))
- (libraries makeRandom))
+ (libraries makeRandom)
+ (modules :standard \ Tests))
+
+(test
+ (name tests)
+ (modules Tests)
+ (libraries splitmix))
