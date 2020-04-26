@@ -50,6 +50,49 @@ value caml_bbattery_BigCrush(value name, value bits) {
   return Val_unit;
 }
 
+/* ******************************* [ Rabbit ] ******************************* */
+
+value caml_bbattery_Rabbit(value name, value bits, value nb) {
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  bbattery_Rabbit (gen, Double_val(nb));
+  unif01_DeleteExternGenBits(gen);
+  return Val_unit;
+}
+
+value caml_bbattery_RabbitFile(value filename, value nb) {
+  bbattery_RabbitFile (String_val(filename), Double_val(nb));
+  return Val_unit;
+}
+
+/* ****************************** [ Alphabit ] ****************************** */
+
+value caml_bbattery_Alphabit(value name, value bits, value nb, value r, value s) {
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  bbattery_Alphabit (gen, Double_val(nb), Int_val(r), Int_val(s));
+  unif01_DeleteExternGenBits(gen);
+  return Val_unit;
+}
+
+value caml_bbattery_AlphabitFile(value filename, value nb) {
+  bbattery_AlphabitFile (String_val(filename), Double_val(nb));
+  return Val_unit;
+}
+
+value caml_bbattery_BlockAlphabit(value name, value bits, value nb, value r, value s) {
+  unif01_Gen *gen;
+  gen = unif01_CreateExternGenFromCamlBits(name, bits);
+  bbattery_BlockAlphabit (gen, Double_val(nb), Int_val(r), Int_val(s));
+  unif01_DeleteExternGenBits(gen);
+  return Val_unit;
+}
+
+value caml_bbattery_BlockAlphabitFile(value filename, value nb) {
+  bbattery_BlockAlphabitFile (String_val(filename), Double_val(nb));
+  return Val_unit;
+}
+
 /* ****************************** [ DIEHARD ] ******************************* */
 
 value caml_bbattery_pseudoDIEHARD(value name, value bits) {
