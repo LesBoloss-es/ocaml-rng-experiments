@@ -59,7 +59,8 @@ static double next_double_u01(void *par, void *s) {
 
 static unsigned long next_u01(void *par, void *s) {
   (void)par;
-  return next(s);
+  // Equivalent to OCaml's [Random.int64 (2^32 + 1)]
+  return next(s) | ((next(s) & 3) << 30) ;
 }
 
 unif01_Gen* create_ocamlrandom(int seed) {
