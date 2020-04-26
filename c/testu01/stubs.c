@@ -9,9 +9,9 @@ value * camlBits_closure = NULL;
 unsigned int camlBits() {
   return Int_val(caml_callback(*camlBits_closure, Val_unit));
 }
-unif01_Gen unif01_CreateExternGenFromCamlBits(value name, value bits) {
+unif01_Gen *unif01_CreateExternGenFromCamlBits(value name, value bits) {
   camlBits_closure = &bits;
-  return unif01_CreateExternGenBits(String_val(name), camlBits);
+  return unif01_CreateExternGenBits(Bytes_val(name), camlBits);
 }
 
 /* ***************************** [ SmallCrush ] ***************************** */
@@ -25,7 +25,7 @@ value caml_bbattery_SmallCrush(value name, value bits) {
 }
 
 value caml_bbattery_SmallCrushFile(value filename) {
-  bbattery_SmallCrushFile(String_val(filename));
+  bbattery_SmallCrushFile(Bytes_val(filename));
   return Val_unit;
 }
 
@@ -61,7 +61,7 @@ value caml_bbattery_Rabbit(value name, value bits, value nb) {
 }
 
 value caml_bbattery_RabbitFile(value filename, value nb) {
-  bbattery_RabbitFile (String_val(filename), Double_val(nb));
+  bbattery_RabbitFile (Bytes_val(filename), Double_val(nb));
   return Val_unit;
 }
 
@@ -76,7 +76,7 @@ value caml_bbattery_Alphabit(value name, value bits, value nb, value r, value s)
 }
 
 value caml_bbattery_AlphabitFile(value filename, value nb) {
-  bbattery_AlphabitFile (String_val(filename), Double_val(nb));
+  bbattery_AlphabitFile (Bytes_val(filename), Double_val(nb));
   return Val_unit;
 }
 
@@ -89,7 +89,7 @@ value caml_bbattery_BlockAlphabit(value name, value bits, value nb, value r, val
 }
 
 value caml_bbattery_BlockAlphabitFile(value filename, value nb) {
-  bbattery_BlockAlphabitFile (String_val(filename), Double_val(nb));
+  bbattery_BlockAlphabitFile (Bytes_val(filename), Double_val(nb));
   return Val_unit;
 }
 
