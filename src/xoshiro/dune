@@ -2,4 +2,4 @@
 
 (library
  (name xoshiro)
- (foreign_stubs (language c) (names x256pp)))
+ (foreign_stubs (language c) (names x256pp stubs reference)))
