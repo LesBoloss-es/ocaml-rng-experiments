@@ -164,7 +164,7 @@ module Int64 = struct
 end
 
 module C = struct
-  external bits: unit -> int = "x256pp_bits"
-  external bits62: unit -> int = "x256pp_bits62"
-  external float: float -> float = "x256pp_double"
+  external bits: unit -> int = "caml_x256pp_bits"
+  external bits62: unit -> int = "caml_x256pp_bits62"
+  external float: float -> float = "caml_x256pp_double"
 end

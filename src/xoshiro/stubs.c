@@ -21,3 +21,22 @@ CAMLprim value caml_x256pp_next(value unit) {
   CAMLreturn(res);
 }
 
+CAMLprim value caml_x256pp_bits(value unit) {
+  CAMLparam1(unit);
+  intnat res = x256pp_next() >> 34;
+  CAMLreturn(Val_long(res));
+}
+
+CAMLprim value caml_x256pp_bits62(value unit) {
+  CAMLparam1(unit);
+  long res = x256pp_next() >> 2;
+  CAMLreturn(Val_long(res));
+}
+
+CAMLprim value caml_x256pp_double(value f) {
+  CAMLparam1(f);
+  double res = (x256pp_next() >> 11) * 0x1.0p-53;
+  res *= Double_val(f);
+  CAMLreturn(caml_copy_double(res));
+}
+
