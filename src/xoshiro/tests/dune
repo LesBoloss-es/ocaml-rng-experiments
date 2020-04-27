@@ -1,0 +1,3 @@
+(tests
+ (names testInt64)
+ (libraries splitmix xoshiro))
