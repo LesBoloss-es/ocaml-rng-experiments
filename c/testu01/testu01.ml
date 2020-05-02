@@ -8,6 +8,7 @@ let barep rep =
 type unif01_Gen
 
 external unif01_CreateExternGenBits : string -> (unit -> int) -> unif01_Gen = "caml_unif01_CreateExternGenBits"
+external unif01_DeleteExternGenBits : unif01_Gen -> unit = "caml_unif01_DeleteExternGenBits"
 
 external bbattery_SmallCrush : unif01_Gen -> unit = "caml_bbattery_SmallCrush"
 external bbattery_SmallCrushFile : string -> unit = "caml_bbattery_SmallCrushFile"

@@ -25,16 +25,22 @@ int * int_array_from_int32_bigarray(value ba) {
 
 /* ***************************** [ unif01_Gen ] ***************************** */
 
-static struct custom_operations unif01_Gen_boxed = {
- identifier  : "unif01_Gen_boxed",
- finalize    : custom_finalize_default,
- compare     : custom_compare_default,
- hash        : custom_hash_default,
- serialize   : custom_serialize_default,
- deserialize : custom_deserialize_default
-};
-
 #define unif01_Gen_unbox(bgen) (* (unif01_Gen**) Data_custom_val(bgen))
+
+void finalize_unif01_Gen_boxed(value bgen) {
+  unif01_Gen * gen = unif01_Gen_unbox(bgen);
+  unif01_DeleteExternGenBits(gen);
+  return;
+}
+
+static struct custom_operations unif01_Gen_boxed = {
+ identifier: "unif01_Gen_boxed",
+ finalize: finalize_unif01_Gen_boxed,
+ compare: custom_compare_default,
+ hash: custom_hash_default,
+ serialize: custom_serialize_default,
+ deserialize: custom_deserialize_default
+};
 
 value camlBits_closure;
 unsigned int camlBits() {
@@ -57,8 +63,7 @@ value caml_unif01_CreateExternGenBits(value name, value bits) {
 
 value caml_unif01_DeleteExternGenBits(value bgen) {
   CAMLparam1(bgen);
-  unif01_Gen * gen = unif01_Gen_unbox(bgen);
-  unif01_DeleteExternGenBits(gen);
+  finalize_unif01_Gen_boxed(bgen);
   CAMLreturn(Val_unit);
 }
 
