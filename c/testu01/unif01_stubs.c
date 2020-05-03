@@ -10,6 +10,12 @@
 #include <unif01.h>
 #include "unif01_stubs.h"
 
+/* ***************************** [ unif01_Gen ] ***************************** */
+
+// FIXME: This finalizer works only for boxed values returned by
+// CreateExternGenBits. I hope we will not need a set of custom_operations per
+// ExternGen* function.
+
 void finalize_unif01_Gen_boxed(value bgen) {
   unif01_Gen * gen = unif01_Gen_unbox(bgen);
   unif01_DeleteExternGenBits(gen);
@@ -25,10 +31,14 @@ static struct custom_operations unif01_Gen_boxed = {
  deserialize: custom_deserialize_default
 };
 
+/* *************************** [ ExternGenBits ] **************************** */
+
 value camlBits_closure;
+
 unsigned int camlBits() {
   return Int_val(caml_callback(camlBits_closure, Val_unit));
 }
+
 value caml_unif01_CreateExternGenBits(value name, value bits) {
   CAMLparam2(name, bits);
   CAMLlocal1(bgen);
