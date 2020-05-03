@@ -1,5 +1,5 @@
 type gen
 
-external createExternGenBits : string -> (unit -> int) -> gen = "caml_unif01_CreateExternGenBits"
+external create_extern_gen_bits : string -> (unit -> int) -> gen = "caml_unif01_CreateExternGenBits"
 
-external deleteExternGenBits : gen -> unit = "caml_unif01_DeleteExternGenBits"
+external delete_extern_gen_bits : gen -> unit = "caml_unif01_DeleteExternGenBits"
