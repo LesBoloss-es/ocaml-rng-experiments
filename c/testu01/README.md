@@ -116,3 +116,11 @@ It was indeed an artefact, and `Random.bits` passes 85th test, HammingIndep with
 L = 30.
 
 For more information, we encourage you to refer to TestU01's user's guide.
+
+FAQ
+---
+
+### Missing Bindings
+
+We add bindings on-demand. So if some bindings do not appear, it is simply that
+we did not have any use for them. Add them, or ask that we do!
