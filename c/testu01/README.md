@@ -36,20 +36,28 @@ differences are the following:
 
 For instance, the binding for the function:
 
-    void bbattery_RepeatBigCrush(unif01_Gen* gen, int[] rep);
+```c
+void bbattery_RepeatBigCrush(unif01_Gen* gen, int[] rep);
+```
 
 will be:
 
-    val Testu01.Bbattery.repeat_big_crush : Unif01.gen -> int array -> unit
+```ocaml
+val Testu01.Bbattery.repeat_big_crush : Unif01.gen -> int array -> unit
+```
 
 and the binding for the variable:
 
-    extern double ftab_Suspectp;
+```c
+extern double ftab_Suspectp;
+```
 
 will be:
 
-    val Testu01.Ftab.get_suspectp : unit -> float
-    val Testu01.Ftab.set_suspectp : float -> unit
+```ocaml
+val Testu01.Ftab.get_suspectp : unit -> float
+val Testu01.Ftab.set_suspectp : float -> unit
+```
 
 Example Use
 -----------
@@ -57,9 +65,11 @@ Example Use
 Let us say we want to asses the quality of the PRNG in OCaml's standard library.
 We can simply write the following file:
 
-    let () =
-      let gen = Testu01.Unif01.create_extern_gen_bits "stdlib" Random.bits in
-      Testu01.Bbattery.crush gen
+```ocaml
+let () =
+  let gen = Testu01.Unif01.create_extern_gen_bits "stdlib" Random.bits in
+  Testu01.Bbattery.crush gen
+```
 
 that creates a TestU01 generator of type `Unif01.gen` out of a function `unit ->
 bits` and applies the test battery "crush" to it (this PRNG passes all tests in
@@ -67,16 +77,18 @@ the "small crush" battery). It can then be compiled to an executable that takes
 about an hour to run and writes a report on the standard output, similar to the
 following:
 
-           Test                          p-value
-     ----------------------------------------------
-     11  BirthdaySpacings, t = 2          eps
-     31  Gap, r = 0                       eps
-     33  Gap, r = 0                       eps
-     51  WeightDistrib, r = 0             eps
-     52  WeightDistrib, r = 8             eps
-     53  WeightDistrib, r = 16            eps
-     85  HammingIndep, L = 30             0.0006
-     ----------------------------------------------
+```
+       Test                          p-value
+ ----------------------------------------------
+ 11  BirthdaySpacings, t = 2          eps
+ 31  Gap, r = 0                       eps
+ 33  Gap, r = 0                       eps
+ 51  WeightDistrib, r = 0             eps
+ 52  WeightDistrib, r = 8             eps
+ 53  WeightDistrib, r = 16            eps
+ 85  HammingIndep, L = 30             0.0006
+ ----------------------------------------------
+```
 
 Some tests (with p-value `eps`) do not pass. For some tests, the p-value is
 suspicious, but we cannot really conclude anything from it. Luckily, TestU01
@@ -86,15 +98,19 @@ test, HammingIndep with L = 30, 10 times (and the others 0 times) to decide
 whether the p-value is indeed low or if it was an unlucky artefact. For that, we
 can write the following file:
 
-    let () =
-      let gen = Testu01.Unif01.create_extern_gen_bits "stdlib" Random.bits in
-      let rep = Array.make 97 0 in
-      rep.(85) <- 10;
-      Testu01.Bbattery.repeat_crush gen rep
+```ocaml
+let () =
+  let gen = Testu01.Unif01.create_extern_gen_bits "stdlib" Random.bits in
+  let rep = Array.make 97 0 in
+  rep.(85) <- 10;
+  Testu01.Bbattery.repeat_crush gen rep
+```
 
 Running it takes about 5 minutes and writes the following report:
 
-     All tests were passed
+```
+ All tests were passed
+```
 
 It was indeed an artefact, and `Random.bits` passes 85th test, HammingIndep with
 L = 30.
