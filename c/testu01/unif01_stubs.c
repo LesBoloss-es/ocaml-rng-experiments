@@ -36,7 +36,10 @@ static struct custom_operations unif01_Gen_boxed = {
 value camlBits_closure;
 
 unsigned int camlBits() {
-  return Int_val(caml_callback(camlBits_closure, Val_unit));
+  // Calls the caml bits callback. Since it provides only 30 bits of precision,
+  // and according the documentation of TestU01, those "must be left shifted so
+  // that the most significant bit is bit 31 (counting from 0)".
+  return Int_val(caml_callback(camlBits_closure, Val_unit)) << 2;
 }
 
 value caml_unif01_CreateExternGenBits(value name, value bits) {
