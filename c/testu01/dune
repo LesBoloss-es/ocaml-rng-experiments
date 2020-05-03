@@ -1,4 +1,9 @@
 (library
  (name testu01)
- (foreign_stubs (language c) (names unif01_stubs bbattery_stubs))
+ (foreign_stubs (language c)
+  (names
+   bbattery_stubs
+   swrite_stubs
+   unif01_stubs
+  ))
  (c_library_flags -ltestu01))
