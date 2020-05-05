@@ -6,4 +6,4 @@
    swrite_stubs
    unif01_stubs
   ))
- (c_library_flags -ltestu01))
+ (c_library_flags -ltestu01 -lmylib))
