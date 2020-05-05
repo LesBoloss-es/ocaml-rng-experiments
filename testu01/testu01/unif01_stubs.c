@@ -34,13 +34,19 @@ static struct custom_operations unif01_Gen_boxed = {
 
 /* *************************** [ ExternGenBits ] **************************** */
 
+static unsigned int EGB_CamlBits (void * bits) {
+  return Int_val(caml_callback((value) bits, Val_unit)) << 2;
+}
+
 static unsigned long EGB_Bits (void * bits, void * junk) {
-  value bbits = (value) bits;
-  return Int_val(caml_callback(bbits, Val_unit)) << 2;
+  return EGB_CamlBits(bits);
 }
 
 static double EGB_U01 (void * bits, void * junk) {
-  return EGB_Bits(bits, junk) / unif01_NORM32;
+  // one must avoid casting the int to a long before the division, because
+  // casting to long fills the other bits with 1, and the result will not give a
+  // number between 0 and 1.
+  return EGB_CamlBits(bits) / unif01_NORM32;
 }
 
 static void WrExternGen (void * junk) {}
