@@ -34,10 +34,21 @@ static struct custom_operations unif01_Gen_boxed = {
 };
 
 /* *************************** [ ExternGenBits ] **************************** */
+
 // We reimplement it ourselves instead of using unif01_CreateExternGenBits. It
 // allows us to get rid of the limitation of only one external generator at the
 // same time, which allows a more functional interface of the stubs, and to have
 // only one finalizer for all the various external generators.
+
+// The principle is the following: TestU01 provides a generic 'unif01_Gen' type.
+// This type contains 'GetU01' and 'GetBits' fields that are called to generate
+// the bits. Basically, we would like to put, in these fields, a lambda calling
+// the given OCaml closure. This is however not possible. We thus leverage the
+// fact that 'unif01_Gen' contains also a 'param' field and that this field is
+// provided to the functions in 'GetU01' and 'GetBits'. We store the OCaml
+// closure in that field. The 'GetU01' and 'GetBits' functions can then be
+// written in a static way: they simply take the closure as a parameter and make
+// an OCaml call to it.
 
 static unsigned int CGB_BitsInt (void * bits) {
   return Int_val(caml_callback((value) bits, Val_unit)) << 2;
