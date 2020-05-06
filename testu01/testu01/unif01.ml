@@ -12,6 +12,8 @@ let create_extern_gen_bits name bits =
         invalid_arg "more than 30 bits received";
       b)
 
+external create_extern_gen_int32 : string -> (unit -> int32) -> gen = "caml_unif01_CreateExternGenInt32"
+
 external create_extern_gen_01 : string -> (unit -> float) -> gen = "caml_unif01_CreateExternGen01"
 
 let create_extern_gen_01 name bits =

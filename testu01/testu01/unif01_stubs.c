@@ -108,6 +108,29 @@ value caml_unif01_CreateExternGenBits(value bname, value bbits) {
   CAMLreturn(caml_unif01_CreateExternGen(bname, bbits, CGB_U01, CGB_Bits));
 }
 
+/* ************************** [ ExternGenInt32 ] **************************** */
+
+static uint32_t CGI32_BitsInt (void * bits) {
+  return Int32_val(caml_callback((value) bits, Val_unit));
+}
+
+static unsigned long CGI32_Bits (void * bits, void * junk) {
+  return CGI32_BitsInt(bits);
+}
+
+static double CGI32_U01 (void * bits, void * junk) {
+  // One must avoid casting the int to a long before the division, because
+  // casting to long fills the other bits with 1, and the result will not give a
+  // number between 0 and 1. This is why U01 does not depend on Bits but on an
+  // additional BitsInt, providing an unsigned int.
+  return CGI32_BitsInt(bits) / unif01_NORM32;
+}
+
+value caml_unif01_CreateExternGenInt32(value bname, value bbits) {
+  CAMLparam2(bname, bbits);
+  CAMLreturn(caml_unif01_CreateExternGen(bname, bbits, CGI32_U01, CGI32_Bits));
+}
+
 /* **************************** [ ExternGen01 ] ***************************** */
 
 static double CG01_U01 (void * bits, void * junk) {
