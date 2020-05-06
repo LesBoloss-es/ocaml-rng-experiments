@@ -23,7 +23,7 @@ void finalize_unif01_Gen_boxed(value bgen) {
 }
 
 static struct custom_operations unif01_Gen_boxed = {
- identifier: "unif01_Gen_boxed",
+ identifier: "fr.boloss.testu01.unif01_Gen",
  finalize: finalize_unif01_Gen_boxed,
  compare: custom_compare_default,
  hash: custom_hash_default,

@@ -15,4 +15,6 @@ static struct custom_operations unif01_Gen_boxed;
 
 value caml_unif01_CreateExternGenBits(value name, value bits);
 
-value caml_unif01_DeleteExternGenBits(value bgen);
+value caml_unif01_CreateExternGenInt32(value name, value bits);
+
+value caml_unif01_CreateExternGen01(value name, value bits);
