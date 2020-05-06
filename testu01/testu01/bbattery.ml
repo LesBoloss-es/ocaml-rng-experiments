@@ -23,7 +23,7 @@ external repeat_crush : Unif01.gen -> int array -> unit =
 let ntests_crush = 96
 
 let repeat_crush gen rep =
-  if Array.length rep <> ntests_crush then
+  if Array.length rep <> ntests_crush + 1 then
     failwith "wrong size for repeat array";
   repeat_crush gen rep
 
@@ -36,7 +36,7 @@ external repeat_big_crush : Unif01.gen -> int array -> unit =
 let ntests_big_crush = 106
 
 let repeat_big_crush gen rep =
-  if Array.length rep <> ntests_big_crush then
+  if Array.length rep <> ntests_big_crush + 1 then
     failwith "wrong size for repeat array";
   repeat_big_crush gen rep
 
@@ -52,7 +52,7 @@ external repeat_rabbit : Unif01.gen -> float -> int array -> unit =
 let ntests_rabbit = 26
 
 let repeat_rabbit gen nb rep =
-  if Array.length rep <> ntests_rabbit then
+  if Array.length rep <> ntests_rabbit + 1 then
     failwith "wrong size for repeat array";
   repeat_rabbit gen nb rep
 
@@ -68,7 +68,7 @@ external repeat_alphabit : Unif01.gen -> float -> int -> int -> int array -> uni
 let ntests_alphabit = 9
 
 let repeat_alphabit gen nb r s rep =
-  if Array.length rep <> ntests_alphabit then
+  if Array.length rep <> ntests_alphabit + 1 then
     failwith "wrong size for repeat array";
   repeat_alphabit gen nb r s rep
 
@@ -84,7 +84,7 @@ external repeat_block_alphabit : Unif01.gen -> float -> int -> int -> int array 
 let ntests_block_alphabit = ntests_alphabit
 
 let repeat_block_alphabit gen nb r s rep w =
-  if Array.length rep <> ntests_block_alphabit then
+  if Array.length rep <> ntests_block_alphabit + 1 then
     failwith "wrong size for repeat array";
   repeat_block_alphabit gen nb r s rep w
 
