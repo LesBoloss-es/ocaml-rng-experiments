@@ -33,20 +33,25 @@ static struct custom_operations unif01_Gen_boxed = {
 };
 
 /* *************************** [ ExternGenBits ] **************************** */
+// We reimplement it ourselves instead of using unif01_CreateExternGenBits. It
+// allows us to get rid of the limitation of only one external generator at the
+// same time, which allows a more functional interface of the stubs, and to have
+// only one finalizer for all the various external generators.
 
-static unsigned int EGB_CamlBits (void * bits) {
+static unsigned int CGB_BitsInt (void * bits) {
   return Int_val(caml_callback((value) bits, Val_unit)) << 2;
 }
 
-static unsigned long EGB_Bits (void * bits, void * junk) {
-  return EGB_CamlBits(bits);
+static unsigned long CGB_Bits (void * bits, void * junk) {
+  return CGB_BitsInt(bits);
 }
 
-static double EGB_U01 (void * bits, void * junk) {
-  // one must avoid casting the int to a long before the division, because
+static double CGB_U01 (void * bits, void * junk) {
+  // One must avoid casting the int to a long before the division, because
   // casting to long fills the other bits with 1, and the result will not give a
-  // number between 0 and 1.
-  return EGB_CamlBits(bits) / unif01_NORM32;
+  // number between 0 and 1. This is why U01 does not depend on Bits but on an
+  // additional BitsInt, providing an unsigned int.
+  return CGB_BitsInt(bits) / unif01_NORM32;
 }
 
 static void WrExternGen (void * junk) {}
@@ -60,8 +65,8 @@ value caml_unif01_CreateExternGenBits(value bname, value bbits) {
   gen->state = NULL;
   gen->param = (void*) bbits;
   gen->Write = WrExternGen;
-  gen->GetU01 = EGB_U01;
-  gen->GetBits = EGB_Bits;
+  gen->GetU01 = CGB_U01;
+  gen->GetBits = CGB_Bits;
 
   char * name = Bytes_val(bname);
   size_t len = strlen(name);
