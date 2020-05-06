@@ -21,8 +21,8 @@ let repeat_crush gen rep = repeat_crush gen (barep ntests_crush rep)
 
 external big_crush : Unif01.gen -> unit = "caml_bbattery_BigCrush"
 external repeat_big_crush : Unif01.gen -> 'a -> unit = "caml_bbattery_RepeatBigCrush"
-let ntests_bigcrush = 106
-let repeat_big_crush gen rep = repeat_big_crush gen (barep ntests_bigcrush rep)
+let ntests_big_crush = 106
+let repeat_big_crush gen rep = repeat_big_crush gen (barep ntests_big_crush rep)
 
 external rabbit : Unif01.gen -> float -> unit = "caml_bbattery_Rabbit"
 external rabbit_file : string -> unit = "caml_bbattery_RabbitFile"
@@ -43,7 +43,7 @@ let ntests_block_alphabit = ntests_alphabit
 let repeat_block_alphabit gen nb r s rep w = repeat_block_alphabit gen nb r s (barep ntests_block_alphabit rep) w
 
 external pseudo_diehard : Unif01.gen -> unit = "caml_bbattery_pseudoDIEHARD"
-let ntests_diehard = 15
+let ntests_pseudo_diehard = 15
 
 external fips_140_2 : Unif01.gen -> unit = "caml_bbattery_FIPS_140_2"
 external fips_140_2_file : string -> unit = "caml_bbattery_FIPS_140_2File"
