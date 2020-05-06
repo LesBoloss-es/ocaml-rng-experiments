@@ -11,15 +11,15 @@
 #include <bbattery.h>
 #include "unif01_stubs.h"
 
-int * int_array_from_int32_bigarray(value ba) {
-  CAMLparam1(ba);
-  int ba32_length = Caml_ba_array_val(ba)->dim[0];
-  int32_t * ba32 = Caml_ba_data_val(ba);
-  int * a = malloc(ba32_length * sizeof(int));
-  for (int i = 0 ; i < ba32_length ; i++) {
-    a[i] = (int) ba32[i];
-  };
-  return a;
+int* int_array_from_ocaml(value brep) {
+  CAMLparam1(brep);
+
+  int len = Wosize_val(brep);
+  int* rep = malloc(sizeof(int) * len);
+  for (int i = 0; i < len; i++) {
+    rep[i] = Int_val(Field(brep, i));
+  }
+  return rep;
 }
 
 /* ***************************** [ SmallCrush ] ***************************** */
@@ -40,7 +40,7 @@ CAMLprim value caml_bbattery_SmallCrushFile(value filename) {
 CAMLprim value caml_bbattery_RepeatSmallCrush(value bgen, value brep) {
   CAMLparam2(bgen, brep);
   unif01_Gen *gen = unif01_Gen_unbox(bgen);
-  int * rep = int_array_from_int32_bigarray(brep);
+  int * rep = int_array_from_ocaml(brep);
   bbattery_RepeatSmallCrush(gen, rep);
   free(rep);
   CAMLreturn(Val_unit);
@@ -58,7 +58,7 @@ CAMLprim value caml_bbattery_Crush(value bgen) {
 CAMLprim value caml_bbattery_RepeatCrush(value bgen, value brep) {
   CAMLparam2(bgen, brep);
   unif01_Gen *gen = unif01_Gen_unbox(bgen);
-  int * rep = int_array_from_int32_bigarray(brep);
+  int * rep = int_array_from_ocaml(brep);
   bbattery_RepeatCrush(gen, rep);
   free(rep);
   CAMLreturn(Val_unit);
@@ -76,7 +76,7 @@ CAMLprim value caml_bbattery_BigCrush(value bgen) {
 CAMLprim value caml_bbattery_RepeatBigCrush(value bgen, value brep) {
   CAMLparam2(bgen, brep);
   unif01_Gen *gen = unif01_Gen_unbox(bgen);
-  int * rep = int_array_from_int32_bigarray(brep);
+  int * rep = int_array_from_ocaml(brep);
   bbattery_RepeatBigCrush(gen, rep);
   free(rep);
   CAMLreturn(Val_unit);
@@ -100,7 +100,7 @@ CAMLprim value caml_bbattery_RabbitFile(value filename, value nb) {
 CAMLprim value caml_bbattery_RepeatRabbit(value bgen, value nb, value brep) {
   CAMLparam3(bgen, nb, brep);
   unif01_Gen *gen = unif01_Gen_unbox(bgen);
-  int * rep = int_array_from_int32_bigarray(brep);
+  int * rep = int_array_from_ocaml(brep);
   bbattery_RepeatRabbit(gen, Double_val(nb), rep);
   free(rep);
   CAMLreturn(Val_unit);
@@ -124,7 +124,7 @@ CAMLprim value caml_bbattery_AlphabitFile(value filename, value nb) {
 CAMLprim value caml_bbattery_RepeatAlphabit(value bgen, value nb, value r, value s, value brep) {
   CAMLparam5(bgen, nb, r, s, brep);
   unif01_Gen *gen = unif01_Gen_unbox(bgen);
-  int * rep = int_array_from_int32_bigarray(brep);
+  int * rep = int_array_from_ocaml(brep);
   bbattery_RepeatAlphabit(gen, Double_val(nb), Int_val(r), Int_val(s), rep);
   free(rep);
   CAMLreturn(Val_unit);
@@ -146,7 +146,7 @@ CAMLprim value caml_bbattery_BlockAlphabitFile(value filename, value nb) {
 CAMLprim value caml_bbattery_RepeatBlockAlphabit(value bgen, value nb, value r, value s, value brep, value w) {
   CAMLparam5(bgen, nb, r, s, brep); CAMLxparam1(w);
   unif01_Gen *gen = unif01_Gen_unbox(bgen);
-  int * rep = int_array_from_int32_bigarray(brep);
+  int * rep = int_array_from_ocaml(brep);
   bbattery_RepeatBlockAlphabit(gen, Double_val(nb), Int_val(r), Int_val(s), rep, Int_val(w));
   free(rep);
   CAMLreturn(Val_unit);

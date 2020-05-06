@@ -1,48 +1,44 @@
-let barep size rep =
-  if Array.length rep <> size + 1 then
-    invalid_arg "wrong size for repeat array";
-  rep
-  |> Array.map (fun x ->
-      if (x lsr 32) <> 0 then
-        invalid_arg "value too high in repeat array";
-      Int32.of_int x)
-  |> Bigarray.(Array1.of_array int32 c_layout)
-
 external small_crush : Unif01.gen -> unit =
   "caml_bbattery_SmallCrush"
 
 external small_crush_file : string -> unit =
   "caml_bbattery_SmallCrushFile"
 
-external repeat_small_crush : Unif01.gen -> 'a -> unit =
+external repeat_small_crush : Unif01.gen -> int array -> unit =
   "caml_bbattery_RepeatSmallCrush"
 
 let ntests_small_crush = 10
 
 let repeat_small_crush gen rep =
-  repeat_small_crush gen (barep ntests_small_crush rep)
+  if Array.length rep <> ntests_small_crush + 1 then
+    invalid_arg "wrong size for repeat array";
+  repeat_small_crush gen rep
 
 external crush : Unif01.gen -> unit =
   "caml_bbattery_Crush"
 
-external repeat_crush : Unif01.gen -> 'a -> unit =
+external repeat_crush : Unif01.gen -> int array -> unit =
   "caml_bbattery_RepeatCrush"
 
 let ntests_crush = 96
 
 let repeat_crush gen rep =
-  repeat_crush gen (barep ntests_crush rep)
+  if Array.length rep <> ntests_crush then
+    failwith "wrong size for repeat array";
+  repeat_crush gen rep
 
 external big_crush : Unif01.gen -> unit =
   "caml_bbattery_BigCrush"
 
-external repeat_big_crush : Unif01.gen -> 'a -> unit =
+external repeat_big_crush : Unif01.gen -> int array -> unit =
   "caml_bbattery_RepeatBigCrush"
 
 let ntests_big_crush = 106
 
 let repeat_big_crush gen rep =
-  repeat_big_crush gen (barep ntests_big_crush rep)
+  if Array.length rep <> ntests_big_crush then
+    failwith "wrong size for repeat array";
+  repeat_big_crush gen rep
 
 external rabbit : Unif01.gen -> float -> unit =
   "caml_bbattery_Rabbit"
@@ -50,13 +46,15 @@ external rabbit : Unif01.gen -> float -> unit =
 external rabbit_file : string -> unit =
   "caml_bbattery_RabbitFile"
 
-external repeat_rabbit : Unif01.gen -> float -> 'a -> unit =
+external repeat_rabbit : Unif01.gen -> float -> int array -> unit =
   "caml_bbattery_RepeatRabbit"
 
 let ntests_rabbit = 26
 
 let repeat_rabbit gen nb rep =
-  repeat_rabbit gen nb (barep ntests_rabbit rep)
+  if Array.length rep <> ntests_rabbit then
+    failwith "wrong size for repeat array";
+  repeat_rabbit gen nb rep
 
 external alphabit : Unif01.gen -> float -> int -> int -> unit =
   "caml_bbattery_Alphabit"
@@ -64,13 +62,15 @@ external alphabit : Unif01.gen -> float -> int -> int -> unit =
 external alphabit_file : string -> float -> unit =
   "caml_bbattery_AlphabitFile"
 
-external repeat_alphabit : Unif01.gen -> float -> int -> int -> 'a -> unit =
+external repeat_alphabit : Unif01.gen -> float -> int -> int -> int array -> unit =
   "caml_bbattery_RepeatAlphabit"
 
 let ntests_alphabit = 9
 
 let repeat_alphabit gen nb r s rep =
-  repeat_alphabit gen nb r s (barep ntests_alphabit rep)
+  if Array.length rep <> ntests_alphabit then
+    failwith "wrong size for repeat array";
+  repeat_alphabit gen nb r s rep
 
 external block_alphabit : Unif01.gen -> float -> int -> int -> unit =
   "caml_bbattery_BlockAlphabit"
@@ -78,13 +78,15 @@ external block_alphabit : Unif01.gen -> float -> int -> int -> unit =
 external block_alphabit_file : string -> float -> unit =
   "caml_bbattery_BlockAlphabitFile"
 
-external repeat_block_alphabit : Unif01.gen -> float -> int -> int -> 'a -> int -> unit =
+external repeat_block_alphabit : Unif01.gen -> float -> int -> int -> int array -> int -> unit =
   "camlbytecode_bbattery_RepeatBlockAlphabit" "caml_bbattery_RepeatBlockAlphabit"
 
 let ntests_block_alphabit = ntests_alphabit
 
 let repeat_block_alphabit gen nb r s rep w =
-  repeat_block_alphabit gen nb r s (barep ntests_block_alphabit rep) w
+  if Array.length rep <> ntests_block_alphabit then
+    failwith "wrong size for repeat array";
+  repeat_block_alphabit gen nb r s rep w
 
 external pseudo_diehard : Unif01.gen -> unit =
   "caml_bbattery_pseudoDIEHARD"
