@@ -19,23 +19,42 @@ possible your distribution provides a package for TestU01 already:
 
 - for Archlinux: `testu01`, in AUR.
 
-Naming Convention
------------------
+API Changes
+-----------
 
-The naming convention remains close to that of TestU01, on purpose. The
-differences are the following:
+The OCaml API remains as close to that of TestU01 as possible. Some changes are
+still introduced to provide a more “OCaml-like” interface. The differences are
+the following:
 
-- The library is all under a main module `Testu01` (or `Probdist` for that other
-  related library).
+- The names have changed:
 
-- The functions, variables and types are not prefixed by the part of the library
-  they belong to, but are in a corresponding module.
+  - The library is all under a main module `Testu01` (or `Probdist` for that
+    other related library).
 
-- The names are with underscore and not in Camel case.
+  - The functions, variables and types are not prefixed by the part of the
+    library they belong to, but are in a corresponding module.
+
+  - The names are with underscore and not in Camel case.
 
 - The global variables are read and modified using getters and setters.
 
-For instance, the binding for the function:
+- The creation of external generators is done with three functions similar to
+  that of the C library:
+
+  - `Testu01.Unif01.create_extern_gen_bits` takes an OCaml “bits” function, that
+    is a function that returns an integer between `0` and `2^30`. This is the
+    case of `Random.bits`, for instance.
+
+  - `Testu01.Unif01.create_extern_gen_int32` takes an OCaml function that
+    returns an `int32`.
+
+  - `Testu01.Unif01.create_extern_gen_01` takes an OCaml function that returns a
+    float between `0` and `1`.
+
+- The destruction of external generators is let to OCaml's garbage collector and
+  cannot be done by hand.
+
+About the name changes, here are a few examples. The binding for the function:
 
 ```c
 void bbattery_RepeatBigCrush(unif01_Gen* gen, int[] rep);
@@ -85,7 +104,7 @@ a report on the standard output, similar to the following:
  11  BirthdaySpacings, t = 2          eps
  31  Gap, r = 0                       eps
  33  Gap, r = 0                       eps
- 47  SampleMean                      0.9940 
+ 47  SampleMean                      0.9940
  51  WeightDistrib, r = 0             eps
  52  WeightDistrib, r = 8             eps
  53  WeightDistrib, r = 16            eps
