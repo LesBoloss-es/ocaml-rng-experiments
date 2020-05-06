@@ -17,6 +17,7 @@ void finalize_unif01_Gen_boxed(value bgen) {
   unif01_Gen * gen = unif01_Gen_unbox(bgen);
 
   gen->state = util_Free(gen->state);
+  caml_remove_global_root((value*) &gen->param);
   gen->name = util_Free(gen->name);
   util_Free(gen);
 
@@ -63,6 +64,7 @@ value caml_unif01_CreateExternGenBits(value bname, value bbits) {
 
   gen = util_Malloc(sizeof(unif01_Gen));
   gen->state = NULL;
+  caml_register_global_root((value*) &gen->param);
   gen->param = (void*) bbits;
   gen->Write = WrExternGen;
   gen->GetU01 = CGB_U01;
