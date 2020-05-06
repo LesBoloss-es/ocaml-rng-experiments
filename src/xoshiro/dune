@@ -1,3 +1,10 @@
 (library
  (name xoshiro)
- (foreign_stubs (language c) (names stubs reference)))
+ (foreign_archives xoshiro)
+ (foreign_stubs (language c) (names stubs)))
+
+(foreign_library
+ (archive_name xoshiro)
+ (language c)
+ (flags -lsplitmix)
+ (names reference))

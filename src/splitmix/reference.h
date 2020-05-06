@@ -3,7 +3,9 @@
 
 #include <stdint.h>
 
-uint64_t sm64_state;
+uint64_t sm64_next_stateless(uint64_t*);
+
+void sm64_seed(uint64_t);
 uint64_t sm64_next();
 
 #endif
