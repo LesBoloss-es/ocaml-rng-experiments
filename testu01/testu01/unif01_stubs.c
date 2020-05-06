@@ -10,6 +10,8 @@
 #include <unif01.h>
 #include "unif01_stubs.h"
 
+#define IGNORE(x) (void)(x)
+
 /* ***************************** [ unif01_Gen ] ***************************** */
 
 void finalize_unif01_Gen_boxed(value bgen) {
@@ -23,12 +25,12 @@ void finalize_unif01_Gen_boxed(value bgen) {
 }
 
 static struct custom_operations unif01_Gen_boxed = {
- identifier: "fr.boloss.testu01.unif01_Gen",
- finalize: finalize_unif01_Gen_boxed,
- compare: custom_compare_default,
- hash: custom_hash_default,
- serialize: custom_serialize_default,
- deserialize: custom_deserialize_default
+ .identifier = "fr.boloss.testu01.unif01_Gen",
+ .finalize = finalize_unif01_Gen_boxed,
+ .compare = custom_compare_default,
+ .hash = custom_hash_default,
+ .serialize = custom_serialize_default,
+ .deserialize = custom_deserialize_default
 };
 
 /* **************************** [ ExternGen* ] ****************************** */
@@ -48,7 +50,7 @@ static struct custom_operations unif01_Gen_boxed = {
 // written in a static way: they simply take the closure as a parameter and make
 // an OCaml call to it.
 
-static void WrExternGen (void * junk) {}
+static void WrExternGen (void * junk) { IGNORE(junk); }
 
 value caml_unif01_CreateExternGen(value bname, value bbits,
                                   double (*GetU01)(void*,void*),
@@ -66,10 +68,10 @@ value caml_unif01_CreateExternGen(value bname, value bbits,
   gen->GetU01 = GetU01;
   gen->GetBits = GetBits;
 
-  char * name = Bytes_val(bname);
-  size_t len = strlen(name);
+  unsigned char* name = Bytes_val(bname);
+  size_t len = strlen((char*)name);
   gen->name = calloc(len + 2, sizeof(char));
-  strncpy(gen->name, name, len);
+  strncpy(gen->name, (char*)name, len);
 
   bgen = caml_alloc_custom(&unif01_Gen_boxed, sizeof(unif01_Gen*), 0, 1);
   memcpy(Data_custom_val(bgen), &gen, sizeof(unif01_Gen*));
@@ -90,10 +92,12 @@ static unsigned int CGB_BitsInt (void * bits) {
 }
 
 static unsigned long CGB_Bits (void * bits, void * junk) {
+  IGNORE(junk);
   return CGB_BitsInt(bits);
 }
 
 static double CGB_U01 (void * bits, void * junk) {
+  IGNORE(junk);
   // One must avoid casting the int to a long before the division, because
   // casting to long fills the other bits with 1, and the result will not give a
   // number between 0 and 1. This is why U01 does not depend on Bits but on an
@@ -113,10 +117,12 @@ static uint32_t CGI32_BitsInt (void * bits) {
 }
 
 static unsigned long CGI32_Bits (void * bits, void * junk) {
+  IGNORE(junk);
   return CGI32_BitsInt(bits);
 }
 
 static double CGI32_U01 (void * bits, void * junk) {
+  IGNORE(junk);
   // One must avoid casting the int to a long before the division, because
   // casting to long fills the other bits with 1, and the result will not give a
   // number between 0 and 1. This is why U01 does not depend on Bits but on an
@@ -132,6 +138,7 @@ value caml_unif01_CreateExternGenInt32(value bname, value bbits) {
 /* **************************** [ ExternGen01 ] ***************************** */
 
 static double CG01_U01 (void * bits, void * junk) {
+  IGNORE(junk);
   return Double_val(caml_callback((value) bits, Val_unit));
 }
 
