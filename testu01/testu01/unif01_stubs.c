@@ -7,7 +7,6 @@
 #include <caml/bigarray.h>
 #include <caml/custom.h>
 
-#include <util.h>
 #include <unif01.h>
 #include "unif01_stubs.h"
 
@@ -16,10 +15,9 @@
 void finalize_unif01_Gen_boxed(value bgen) {
   unif01_Gen * gen = unif01_Gen_unbox(bgen);
 
-  gen->state = util_Free(gen->state);
   caml_remove_global_root((value*) &gen->param);
-  gen->name = util_Free(gen->name);
-  util_Free(gen);
+  free(gen->name);
+  free(gen);
 
   return;
 }
@@ -60,7 +58,7 @@ value caml_unif01_CreateExternGen(value bname, value bbits,
   CAMLlocal1(bgen);
   unif01_Gen * gen;
 
-  gen = util_Malloc(sizeof(unif01_Gen));
+  gen = malloc(sizeof(unif01_Gen));
   gen->state = NULL;
   caml_register_global_root((value*) &gen->param);
   gen->param = (void*) bbits;
@@ -70,7 +68,7 @@ value caml_unif01_CreateExternGen(value bname, value bbits,
 
   char * name = Bytes_val(bname);
   size_t len = strlen(name);
-  gen->name = util_Calloc(len + 2, sizeof(char));
+  gen->name = calloc(len + 2, sizeof(char));
   strncpy(gen->name, name, len);
 
   bgen = caml_alloc_custom(&unif01_Gen_boxed, sizeof(unif01_Gen*), 0, 1);
