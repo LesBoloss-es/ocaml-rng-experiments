@@ -107,3 +107,18 @@ value caml_unif01_CreateExternGenBits(value bname, value bbits) {
   CAMLparam2(bname, bbits);
   CAMLreturn(caml_unif01_CreateExternGen(bname, bbits, CGB_U01, CGB_Bits));
 }
+
+/* **************************** [ ExternGen01 ] ***************************** */
+
+static double CG01_U01 (void * bits, void * junk) {
+  return Double_val(caml_callback((value) bits, Val_unit));
+}
+
+static unsigned long CG01_Bits (void * bits, void * junk) {
+  return CG01_U01(bits, junk) * unif01_NORM32;
+}
+
+value caml_unif01_CreateExternGen01(value bname, value bbits) {
+  CAMLparam2(bname, bbits);
+  CAMLreturn(caml_unif01_CreateExternGen(bname, bbits, CG01_U01, CG01_Bits));
+}
