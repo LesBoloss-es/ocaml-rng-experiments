@@ -33,12 +33,12 @@ static struct custom_operations unif01_Gen_boxed = {
  deserialize: custom_deserialize_default
 };
 
-/* *************************** [ ExternGenBits ] **************************** */
+/* **************************** [ ExternGen* ] ****************************** */
 
-// We reimplement it ourselves instead of using unif01_CreateExternGenBits. It
-// allows us to get rid of the limitation of only one external generator at the
-// same time, which allows a more functional interface of the stubs, and to have
-// only one finalizer for all the various external generators.
+// We reimplement them ourselves instead of using 'unif01_CreateExternGenBits'.
+// It allows us to get rid of the limitation of only one external generator at
+// the same time, which allows a more functional interface of the stubs, and to
+// have only one finalizer for all the various external generators.
 
 // The principle is the following: TestU01 provides a generic 'unif01_Gen' type.
 // This type contains 'GetU01' and 'GetBits' fields that are called to generate
@@ -50,7 +50,44 @@ static struct custom_operations unif01_Gen_boxed = {
 // written in a static way: they simply take the closure as a parameter and make
 // an OCaml call to it.
 
+static void WrExternGen (void * junk) {}
+
+value caml_unif01_CreateExternGen(value bname, value bbits,
+                                  double (*GetU01)(void*,void*),
+                                  unsigned long (*GetBits)(void*,void*))
+{
+  CAMLparam2(bname, bbits);
+  CAMLlocal1(bgen);
+  unif01_Gen * gen;
+
+  gen = util_Malloc(sizeof(unif01_Gen));
+  gen->state = NULL;
+  caml_register_global_root((value*) &gen->param);
+  gen->param = (void*) bbits;
+  gen->Write = WrExternGen;
+  gen->GetU01 = GetU01;
+  gen->GetBits = GetBits;
+
+  char * name = Bytes_val(bname);
+  size_t len = strlen(name);
+  gen->name = util_Calloc(len + 2, sizeof(char));
+  strncpy(gen->name, name, len);
+
+  bgen = caml_alloc_custom(&unif01_Gen_boxed, sizeof(unif01_Gen*), 0, 1);
+  memcpy(Data_custom_val(bgen), &gen, sizeof(unif01_Gen*));
+
+  CAMLreturn(bgen);
+}
+
+/* *************************** [ ExternGenBits ] **************************** */
+
 static unsigned int CGB_BitsInt (void * bits) {
+  // From TestU01's documentation (it applies here since this is meant for OCaml
+  // bits function that return 30 bits):
+  //
+  // > If the generator delivers less than 32 bits, these bits are left shifted
+  // > so that the most significant bits are the relevant ones.
+  //
   return Int_val(caml_callback((value) bits, Val_unit)) << 2;
 }
 
@@ -66,28 +103,7 @@ static double CGB_U01 (void * bits, void * junk) {
   return CGB_BitsInt(bits) / unif01_NORM32;
 }
 
-static void WrExternGen (void * junk) {}
-
 value caml_unif01_CreateExternGenBits(value bname, value bbits) {
   CAMLparam2(bname, bbits);
-  CAMLlocal1(bgen);
-  unif01_Gen * gen;
-
-  gen = util_Malloc(sizeof(unif01_Gen));
-  gen->state = NULL;
-  caml_register_global_root((value*) &gen->param);
-  gen->param = (void*) bbits;
-  gen->Write = WrExternGen;
-  gen->GetU01 = CGB_U01;
-  gen->GetBits = CGB_Bits;
-
-  char * name = Bytes_val(bname);
-  size_t len = strlen(name);
-  gen->name = util_Calloc(len + 2, sizeof(char));
-  strncpy(gen->name, name, len);
-
-  bgen = caml_alloc_custom(&unif01_Gen_boxed, sizeof(unif01_Gen*), 0, 1);
-  memcpy(Data_custom_val(bgen), &gen, sizeof(unif01_Gen*));
-
-  CAMLreturn(bgen);
+  CAMLreturn(caml_unif01_CreateExternGen(bname, bbits, CGB_U01, CGB_Bits));
 }
