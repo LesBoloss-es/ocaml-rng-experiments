@@ -1,4 +1,5 @@
 #include <string.h>
+#include <limits.h>
 
 #define CAML_NAME_SPACE
 #include <caml/mlvalues.h>
@@ -6,6 +7,7 @@
 #include <caml/callback.h>
 #include <caml/bigarray.h>
 #include <caml/custom.h>
+#include <caml/fail.h>
 
 #include <unif01.h>
 #include <bbattery.h>
@@ -13,11 +15,13 @@
 
 int* int_array_from_ocaml(value brep) {
   CAMLparam1(brep);
-
   int len = Wosize_val(brep);
   int* rep = malloc(sizeof(int) * len);
   for (int i = 0; i < len; i++) {
-    rep[i] = Int_val(Field(brep, i));
+    long rep_i = Long_val(Field(brep, i));
+    if (rep_i < 0 || rep_i > INT_MAX)
+      caml_invalid_argument("wrong value in repeat array");
+    rep[i] = (int) rep_i;
   }
   return rep;
 }
