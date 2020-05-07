@@ -43,7 +43,7 @@ let repeat_big_crush gen rep =
 external rabbit : Unif01.gen -> float -> unit =
   "caml_bbattery_Rabbit"
 
-external rabbit_file : string -> unit =
+external rabbit_file : string -> float -> unit =
   "caml_bbattery_RabbitFile"
 
 external repeat_rabbit : Unif01.gen -> float -> int array -> unit =
