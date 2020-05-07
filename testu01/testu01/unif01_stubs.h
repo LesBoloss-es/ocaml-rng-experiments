@@ -11,6 +11,7 @@
 
 static struct custom_operations unif01_Gen_boxed;
 
+#define IGNORE(x) (void)(x)
 #define unif01_Gen_unbox(bgen) (* (unif01_Gen**) Data_custom_val(bgen))
 
 value caml_unif01_CreateExternGenBits(value name, value bits);

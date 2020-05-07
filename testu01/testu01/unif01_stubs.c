@@ -10,8 +10,6 @@
 #include <unif01.h>
 #include "unif01_stubs.h"
 
-#define IGNORE(x) (void)(x)
-
 /* ***************************** [ unif01_Gen ] ***************************** */
 
 void finalize_unif01_Gen_boxed(value bgen) {
