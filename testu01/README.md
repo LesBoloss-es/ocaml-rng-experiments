@@ -19,6 +19,9 @@ possible your distribution provides a package for TestU01 already:
 
 - for Archlinux: `testu01`, in AUR.
 
+Otherwise, please refer to the `assets/` directory or to [TestsU01's
+Installation Guide](http://simul.iro.umontreal.ca/testu01/install.html).
+
 API Changes
 -----------
 
@@ -46,7 +49,9 @@ the following:
     case of `Random.bits`, for instance.
 
   - `Testu01.Unif01.create_extern_gen_int32` takes an OCaml function that
-    returns an `int32`.
+    returns an `int32`. Note that such a function is expected to provided all 32
+    bits. In particular, `fun () -> Random.int32 Int32.max_int` is not a good
+    candidate.
 
   - `Testu01.Unif01.create_extern_gen_01` takes an OCaml function that returns a
     float between `0` and `1`.
@@ -57,7 +62,7 @@ the following:
 About the name changes, here are a few examples. The binding for the function:
 
 ```c
-void bbattery_RepeatBigCrush(unif01_Gen* gen, int[] rep);
+void bbattery_RepeatBigCrush(unif01_Gen* gen, int* rep);
 ```
 
 will be:
@@ -93,10 +98,10 @@ let () =
 ```
 
 that creates a TestU01 generator of type `Unif01.gen` out of a function `unit ->
-bits`, sets (that is optional, the default is `0.001`) the threshold for suspect
-p-values to `0.01` and applies the test battery "crush" to the generator. It can
-then be compiled to an executable that takes about 40 minutes to run and writes
-a report on the standard output, similar to the following:
+bits`, sets the threshold for suspect p-values to `0.01` (that is optional, the
+default is `0.001`) and applies the test battery "crush" to the generator. It
+can then be compiled to an executable that takes about 40 minutes to run and
+writes a report on the standard output, similar to the following:
 
 ```
        Test                          p-value
@@ -114,24 +119,25 @@ a report on the standard output, similar to the following:
 ```
 
 Some tests (with p-value `eps`) do not pass. For some tests, the p-value is
-suspicious (that is, inferior to `suspectp` or bigger than `1 - suspectp`), but
-we cannot really conclude anything from it. Luckily, TestU01 provides `Repeat*`
-variants for its test batteries. They allow to provide, *via* an array, the
-number of times each test must be run. Let us repeat the 47th test,
-“SampleMean”, the 83rd test, “HammingCorr with L = 300”, and the 86th test,
-“HammingIndep with L = 30”. We will repeat them 10 times each, and the others 0
-times, to decide whether the p-value is indeed suspicious or if it was an
-unlucky artefact. For that, we can write the following file:
+suspicious (that is, inferior to `suspectp` or bigger than `1 - suspectp` but
+not `eps` nor `1 - eps`), but we cannot really conclude anything from it.
+Luckily, TestU01 provides `Repeat*` variants for its test batteries. They allow
+to provide, *via* an array, the number of times each test must be run. Let us
+repeat the 47th test, “SampleMean”, the 83rd test, “HammingCorr with L = 300”,
+and the 86th test, “HammingIndep with L = 30”. We will repeat them 10 times
+each, and the others 0 times, to decide whether the p-value is indeed suspicious
+or if it was an unlucky artefact. For that, we can write the following file:
 
 ```ocaml
+open Testu01
 let () =
   let gen = Testu01.Unif01.create_extern_gen_bits "stdlib" Random.bits in
   Probdist.Gofw.set_suspectp 0.01;
-  let rep = Array.make 97 0 in
+  let rep = Array.make (1 + Bbattery.ntests_crush) 0 in
   rep.(47) <- 10;
   rep.(83) <- 10;
   rep.(86) <- 10;
-  Testu01.Bbattery.repeat_crush gen rep
+  Bbattery.repeat_crush gen rep
 ```
 
 Running it takes about 5 minutes and writes the following report:
