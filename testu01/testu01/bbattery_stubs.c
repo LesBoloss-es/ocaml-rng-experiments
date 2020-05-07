@@ -23,7 +23,7 @@ int* int_array_from_ocaml(value brep) {
       caml_invalid_argument("wrong value in repeat array");
     rep[i] = (int) rep_i;
   }
-  return rep;
+  CAMLreturnT(int*, rep);
 }
 
 /* ***************************** [ SmallCrush ] ***************************** */
