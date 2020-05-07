@@ -86,7 +86,7 @@ static unsigned int CGB_BitsInt (void * bits) {
   // > If the generator delivers less than 32 bits, these bits are left shifted
   // > so that the most significant bits are the relevant ones.
   //
-  return Int_val(caml_callback((value) bits, Val_unit)) << 2;
+  return ((unsigned int) Int_val(caml_callback((value) bits, Val_unit))) << 2;
 }
 
 static unsigned long CGB_Bits (void * bits, void * junk) {
