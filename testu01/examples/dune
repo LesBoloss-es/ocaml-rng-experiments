@@ -1,0 +1,3 @@
+(executables
+ (names bat1 bat2)
+ (libraries testu01))

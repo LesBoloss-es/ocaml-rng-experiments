@@ -150,6 +150,69 @@ This means that all these tests were indeed unlucky artefacts.
 
 For more information, we encourage you to refer to TestU01's user's guide.
 
+Examples From TestU01's Documentation
+-------------------------------------
+
+TestU01's User Guide includes several examples. Here are some with their OCaml
+version. These examples as well as their C version and the expected result can
+be found in the `examples` directory.
+
+### Figure 4.1
+
+In the User Guide:
+
+```c
+#include "ulcg.h"
+#include "unif01.h"
+#include "bbattery.h"
+
+int main (void)
+{
+   unif01_Gen *gen;
+   gen = ulcg_CreateLCG (2147483647, 16807, 0, 12345);
+   bbattery_SmallCrush (gen);
+   ulcg_DeleteGen (gen);
+   return 0;
+}
+```
+
+With these bindings:
+
+```ocaml
+open Testu01
+
+let () =
+  let gen = Ulcg.create_lcg 2147483647 16807 0 12345 in
+  Bbattery.small_crush gen
+```
+
+### Figure 4.3
+
+In the User Guide:
+
+```c
+#include "gdef.h"
+#include "swrite.h"
+#include "bbattery.h"
+
+int main (void)
+{
+   swrite_Basic = FALSE;
+   bbattery_RabbitFile ("vax.bin", 1048576);
+   return 0;
+}
+```
+
+With these bindings:
+
+```ocaml
+open Testu01
+
+let () =
+  Swrite.set_basic false;
+  Bbattery.rabbit_file "vax.bin" 1048576.
+```
+
 FAQ
 ---
 
