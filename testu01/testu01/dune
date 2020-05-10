@@ -6,5 +6,6 @@
    swrite_stubs
    ulcg_stubs
    unif01_stubs
+   usoft_stubs
   ))
  (c_library_flags -ltestu01))
