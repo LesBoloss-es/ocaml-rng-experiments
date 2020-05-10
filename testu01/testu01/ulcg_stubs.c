@@ -28,7 +28,6 @@ value caml_ulcg_CreateLCG(value m, value a, value c, value s) {
   CAMLparam4(m, a, c, s);
   CAMLlocal1(bgen);
   unif01_Gen* gen = ulcg_CreateLCG(Long_val(m), Long_val(a), Long_val(c), Long_val(s));
-  bgen = caml_alloc_custom(&ulcg_unif01_Gen_boxed, sizeof(unif01_Gen*), 0, 1);
-  memcpy(Data_custom_val(bgen), &gen, sizeof(unif01_Gen*));
+  unif01_Gen_box(gen, bgen, ulcg_unif01_Gen_boxed);
   CAMLreturn(bgen);
 }

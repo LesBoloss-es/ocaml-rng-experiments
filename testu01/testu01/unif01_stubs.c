@@ -71,9 +71,7 @@ value caml_unif01_CreateExternGen(value bname, value bbits,
   gen->name = calloc(len + 2, sizeof(char));
   strncpy(gen->name, (char*)name, len);
 
-  bgen = caml_alloc_custom(&unif01_Gen_boxed, sizeof(unif01_Gen*), 0, 1);
-  memcpy(Data_custom_val(bgen), &gen, sizeof(unif01_Gen*));
-
+  unif01_Gen_box(gen, bgen, unif01_Gen_boxed);
   CAMLreturn(bgen);
 }
 
