@@ -1,11 +1,11 @@
 open Xoshiro
 
 let int_int_to_int64 (hi, lo) =
-  let open Int64 in
+  let open Stdlib.Int64 in
   logxor (shift_left (of_int hi) 32) (of_int lo)
 
 let int64_to_int_int n =
-  let open Int64 in
+  let open Stdlib.Int64 in
   let hi = to_int (shift_right_logical n 32) in
   let lo = to_int (logand n 0xFFFFFFFFL) in
   (hi, lo)
