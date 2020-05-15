@@ -1,5 +1,5 @@
 #ifndef SPLITMIX64_H
-#define SPLITMIX64_H
+#define SPLITMIX64_H 1
 
 #include <stdint.h>
 
