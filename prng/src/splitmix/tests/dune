@@ -1,0 +1,3 @@
+(test
+ (name sm64)
+ (libraries splitmix))
