@@ -3,8 +3,11 @@
  (foreign_stubs (language c)
   (names
    bbattery_stubs
+   smarsa_stubs
+   sres_stubs
    swrite_stubs
    ulcg_stubs
    unif01_stubs
+   usoft_stubs
   ))
  (c_library_flags -ltestu01))
