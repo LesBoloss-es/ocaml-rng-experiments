@@ -7,7 +7,7 @@ static inline uint64_t rotl(const uint64_t x, int k) {
 	return (x << k) | (x >> (64 - k));
 }
 
-uint64_t x256pp_state[4] = {
+static uint64_t x256pp_state[4] = {
   0xd430ebc2f4d9e7b8,
   0x44815975ddd19d52,
   0xbb18c2b0b18d0bfe,
