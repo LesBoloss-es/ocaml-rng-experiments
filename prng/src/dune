@@ -1,4 +1,0 @@
-(executable
- (name bench)
- (libraries xoshiro makeRandom core_bench)
- (modules Bench))
