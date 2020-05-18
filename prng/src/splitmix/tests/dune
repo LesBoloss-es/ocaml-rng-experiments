@@ -1,3 +1,13 @@
-(test
- (name sm64)
- (libraries splitmix))
+(executable
+ (name sm64_ocaml)
+ (libraries splitmix testutils))
+
+(rule
+ (target sm64_c.exe)
+ (deps sm64_c.c ../../testutils/libtestutils.a ../libsplitmix.a)
+ (action
+  (run cc -Wall -Wextra -Wpedantic -o %{target} %{deps})))
+
+(rule (with-stdout-to sm64_ocaml.output (run ./sm64_ocaml.exe --nb=1000)))
+(rule (with-stdout-to sm64_c.output     (run ./sm64_c.exe     --nb=1000)))
+(rule (alias runtest) (action (diff sm64_ocaml.output sm64_c.output)))
