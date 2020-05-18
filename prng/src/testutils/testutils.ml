@@ -6,13 +6,14 @@ let run ~seed_f ~next =
     (
       "--nb",
       Arg.Set_int nb_iterations,
-      " Number of random integers to generate"
+      "Number of random integers to generate"
     );
     (
       "--seed",
       Arg.String (fun n -> seed := Int64.of_string n),
-      " 64-bit seed");
-  ] in
+      "64-bit seed");
+  ] |> Arg.align
+  in
 
   let usage =
     Format.sprintf "%s [--seed=SEED] [--nb=N]" Sys.argv.(0)
