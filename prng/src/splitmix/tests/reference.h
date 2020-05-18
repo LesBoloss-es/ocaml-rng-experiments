@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-void sm64_seed(uint64_t);
-uint64_t sm64_next();
+uint64_t next();
+void seed(uint64_t);
 
 #endif

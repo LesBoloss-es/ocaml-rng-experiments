@@ -4,9 +4,9 @@
 
 (rule
  (target x256pp_c.exe)
- (deps x256pp_c.c reference.c ../../testutils/libtestutils.a)
+ (deps reference.h (:codedeps x256pp_c.c reference.c ../../testutils/libtestutils.a))
  (action
-  (run cc -Wall -Wextra -Wpedantic -o %{target} %{deps})))
+  (run cc -Wall -Wextra -Wpedantic -o %{target} %{codedeps})))
 
 
 (rule (with-stdout-to x256pp_int.output   (run ./int.exe      --nb=1000)))

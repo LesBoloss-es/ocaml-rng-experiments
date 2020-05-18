@@ -1,6 +1,6 @@
-#include "reference.h"
-#include "../../testutils/testutils.h"
+#include "reference.h" // seed, next
+#include "../../testutils/testutils.h" // testutils_run
 
 int main(int argc, char* argv[]) {
-  return testutils_run(argc, argv, sm64_seed, sm64_next);
+  return testutils_run(argc, argv, seed, next);
 }
