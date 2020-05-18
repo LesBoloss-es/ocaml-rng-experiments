@@ -4,7 +4,7 @@
 
 (rule
  (target sm64_c.exe)
- (deps sm64_c.c ../../testutils/libtestutils.a ../libsplitmix.a)
+ (deps sm64_c.c reference.c ../../testutils/libtestutils.a)
  (action
   (run cc -Wall -Wextra -Wpedantic -o %{target} %{deps})))
 

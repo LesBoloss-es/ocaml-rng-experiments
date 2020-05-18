@@ -1,7 +1,6 @@
 // Reference:  http://prng.di.unimi.it/xoshiro256plusplus.c
 
 #include <stdint.h>
-#include "../splitmix/reference.h"
 
 static inline uint64_t rotl(const uint64_t x, int k) {
 	return (x << k) | (x >> (64 - k));
@@ -29,6 +28,13 @@ uint64_t x256pp_next(void) {
 	x256pp_state[3] = rotl(x256pp_state[3], 45);
 
 	return result;
+}
+
+static uint64_t sm64_next_stateless(uint64_t* s) {
+	uint64_t z = (*s += 0x9e3779b97f4a7c15);
+	z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
+	z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
+	return z ^ (z >> 31);
 }
 
 void x256pp_seed(uint64_t seed) {

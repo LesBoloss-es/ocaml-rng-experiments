@@ -1,10 +1,3 @@
 (library
  (name splitmix)
- (foreign_archives splitmix)
- (foreign_stubs (language c) (names stubs))
  (libraries makeRandom))
-
-(foreign_library
- (archive_name splitmix)
- (language c)
- (names reference))
