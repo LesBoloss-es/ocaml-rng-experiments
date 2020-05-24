@@ -1,2 +1,2 @@
 (env
- (_ (c_flags :standard -Wall -Werror -Wpedantic)))
+ (_ (c_flags :standard -Werror -Wall -Wextra -pedantic)))
