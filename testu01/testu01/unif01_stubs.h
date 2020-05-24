@@ -12,8 +12,6 @@
 
 #include <unif01.h>
 
-static struct custom_operations unif01_Gen_boxed;
-
 #define IGNORE(x) (void)(x)
 #define unif01_Gen_unbox(bgen) (* (unif01_Gen**) Data_custom_val(bgen))
 
