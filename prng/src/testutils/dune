@@ -1,7 +1,6 @@
 (foreign_library
  (archive_name testutils)
  (language c)
- (flags -Wall -Wextra -Wpedantic)
  (names testutils))
 
 (library

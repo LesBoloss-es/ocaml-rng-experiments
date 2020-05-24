@@ -4,9 +4,9 @@
 
 (rule
  (target sm64_c.exe)
- (deps reference.h (:codedeps sm64_c.c reference.c ../../testutils/libtestutils.a))
+ (deps reference.h (:codedeps sm64_c.c reference.c %{lib-private:testutils:libtestutils.a}))
  (action
-  (run cc -Wall -Wextra -Wpedantic -o %{target} %{codedeps})))
+  (run %{cc} -o %{target} %{codedeps})))
 
 (rule (with-stdout-to sm64_ocaml.output (run ./sm64_ocaml.exe --nb=1000)))
 (rule (with-stdout-to sm64_c.output     (run ./sm64_c.exe     --nb=1000)))
