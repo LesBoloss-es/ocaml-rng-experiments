@@ -9,13 +9,13 @@ See <http://creativecommons.org/publicdomain/zero/1.0/>. */
 #include <stdint.h>
 
 /* This is a fixed-increment version of Java 8's SplittableRandom generator
-   See http://dx.doi.org/10.1145/2714064.2660195 and
+   See http://dx.doi.org/10.1145/2714064.2660195 and 
    http://docs.oracle.com/javase/8/docs/api/java/util/SplittableRandom.html
 
    It is a very fast generator passing BigCrush, and it can be useful if
    for some reason you absolutely want 64 bits of state. */
 
-static uint64_t x = 0xdead42beef37ca7a; /* The state can be seeded with any value. */
+static uint64_t x; /* The state can be seeded with any value. */
 
 uint64_t next() {
 	uint64_t z = (x += 0x9e3779b97f4a7c15);
@@ -24,3 +24,10 @@ uint64_t next() {
 	return z ^ (z >> 31);
 }
 
+// --------------------------------
+// Above this line: verbatim copy of http://prng.di.unimi.it/splitmix64.c
+// Below: added by us for testing purpose
+
+void seed(uint64_t s) {
+  x = s;
+}

@@ -1,0 +1,17 @@
+(executables
+ (names int64 int)
+ (libraries xoshiro testutils splitmix))
+
+(rule
+ (target x256pp_c.exe)
+ (deps reference.h (:codedeps x256pp_c.c reference.c %{lib-private:testutils:libtestutils.a}))
+ (action
+  (run %{cc} -o %{target} %{codedeps})))
+
+
+(rule (with-stdout-to x256pp_int.output   (run ./int.exe      --nb=1000)))
+(rule (with-stdout-to x256pp_int64.output (run ./int64.exe    --nb=1000)))
+(rule (with-stdout-to x256pp_c.output     (run ./x256pp_c.exe --nb=1000)))
+
+(rule (alias runtest) (action (diff x256pp_int.output   x256pp_c.output)))
+(rule (alias runtest) (action (diff x256pp_int64.output x256pp_c.output)))

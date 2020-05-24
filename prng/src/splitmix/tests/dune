@@ -1,0 +1,13 @@
+(executable
+ (name sm64_ocaml)
+ (libraries splitmix testutils))
+
+(rule
+ (target sm64_c.exe)
+ (deps reference.h (:codedeps sm64_c.c reference.c %{lib-private:testutils:libtestutils.a}))
+ (action
+  (run %{cc} -o %{target} %{codedeps})))
+
+(rule (with-stdout-to sm64_ocaml.output (run ./sm64_ocaml.exe --nb=1000)))
+(rule (with-stdout-to sm64_c.output     (run ./sm64_c.exe     --nb=1000)))
+(rule (alias runtest) (action (diff sm64_ocaml.output sm64_c.output)))

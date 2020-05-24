@@ -37,7 +37,7 @@ value caml_bbattery_SmallCrush(value bgen) {
 
 value caml_bbattery_SmallCrushFile(value filename) {
   CAMLparam1(filename);
-  bbattery_SmallCrushFile(Bytes_val(filename));
+  bbattery_SmallCrushFile((char*)Bytes_val(filename));
   CAMLreturn(Val_unit);
 }
 
@@ -97,7 +97,7 @@ value caml_bbattery_Rabbit(value bgen, value nb) {
 
 value caml_bbattery_RabbitFile(value filename, value nb) {
   CAMLparam2(filename, nb);
-  bbattery_RabbitFile (Bytes_val(filename), Double_val(nb));
+  bbattery_RabbitFile ((char*)Bytes_val(filename), Double_val(nb));
   CAMLreturn(Val_unit);
 }
 
@@ -121,7 +121,7 @@ value caml_bbattery_Alphabit(value bgen, value nb, value r, value s) {
 
 value caml_bbattery_AlphabitFile(value filename, value nb) {
   CAMLparam2(filename, nb);
-  bbattery_AlphabitFile (Bytes_val(filename), Double_val(nb));
+  bbattery_AlphabitFile ((char*)Bytes_val(filename), Double_val(nb));
   CAMLreturn(Val_unit);
 }
 
@@ -143,7 +143,7 @@ value caml_bbattery_BlockAlphabit(value bgen, value nb, value r, value s) {
 
 value caml_bbattery_BlockAlphabitFile(value filename, value nb) {
   CAMLparam2(filename, nb);
-  bbattery_BlockAlphabitFile (Bytes_val(filename), Double_val(nb));
+  bbattery_BlockAlphabitFile ((char*)Bytes_val(filename), Double_val(nb));
   CAMLreturn(Val_unit);
 }
 
@@ -156,6 +156,7 @@ value caml_bbattery_RepeatBlockAlphabit(value bgen, value nb, value r, value s, 
   CAMLreturn(Val_unit);
 }
 value camlbytecode_bbattery_RepeatBlockAlphabit(value * argv, int argn) {
+  IGNORE(argn);
   return caml_bbattery_RepeatBlockAlphabit(argv[0], argv[1], argv[2], argv[3], argv[4], argv[5]);
 }
 
@@ -179,6 +180,6 @@ value caml_bbattery_FIPS_140_2(value bgen) {
 
 value caml_bbattery_FIPS_140_2File(value filename) {
   CAMLparam1(filename);
-  bbattery_FIPS_140_2File(Bytes_val(filename));
+  bbattery_FIPS_140_2File((char*)Bytes_val(filename));
   CAMLreturn(Val_unit);
 }

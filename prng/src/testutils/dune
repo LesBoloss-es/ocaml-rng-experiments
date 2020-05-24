@@ -1,0 +1,7 @@
+(foreign_library
+ (archive_name testutils)
+ (language c)
+ (names testutils))
+
+(library
+ (name testutils))

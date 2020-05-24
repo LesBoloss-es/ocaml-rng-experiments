@@ -162,9 +162,3 @@ module Int64 = struct
   let float x =
     Int64.(to_float (shift_right_logical (next ()) 11)) *. 0x1.0p-53 *. x
 end
-
-module C = struct
-  external bits: unit -> int = "x256pp_bits"
-  external bits62: unit -> int = "x256pp_bits62"
-  external float: float -> float = "x256pp_double"
-end

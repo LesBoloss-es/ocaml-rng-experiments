@@ -7,7 +7,6 @@ worldwide. This software is distributed without any warranty.
 See <http://creativecommons.org/publicdomain/zero/1.0/>. */
 
 #include <stdint.h>
-#include <stdio.h>
 
 /* This is xoshiro256++ 1.0, one of our all-purpose, rock-solid generators.
    It has excellent (sub-ns) speed, a state (256 bits) that is large
@@ -25,12 +24,7 @@ static inline uint64_t rotl(const uint64_t x, int k) {
 }
 
 
-static uint64_t s[4] = {
-  0xdeadbeefdeadbeef,
-  0x4242424242424242,
-  0x3737373737373737,
-  0xca7aca7aca7aca7a
-};
+static uint64_t s[4];
 
 uint64_t next(void) {
 	const uint64_t result = rotl(s[0] + s[3], 23) + s[0];
@@ -47,4 +41,24 @@ uint64_t next(void) {
 	s[3] = rotl(s[3], 45);
 
 	return result;
+}
+
+// --------------------------------
+// Above this line: verbatim copy of http://prng.di.unimi.it/xoshiro256plusplus.c
+// without the `jump` and `long_jump` functions.
+// Below: added by us for testing purpose
+
+// Use splitmix64 to seed xoshiro as suggested by Vigna.
+uint64_t splitmix64_stateless(uint64_t* state) {
+	uint64_t z = (*state += 0x9e3779b97f4a7c15);
+	z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
+	z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
+	return z ^ (z >> 31);
+}
+
+void seed(uint64_t x) {
+  uint64_t splitmix_state = x;
+  for (int i = 0; i < 4; i++) {
+    s[i] = splitmix64_stateless(&splitmix_state);
+  }
 }
