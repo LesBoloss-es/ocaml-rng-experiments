@@ -1,4 +1,0 @@
-(library
- (name probdist)
- (foreign_stubs (language c) (names gofw_stubs))
- (c_library_flags -lprobdist))
